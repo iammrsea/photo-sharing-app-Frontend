@@ -1,0 +1,33 @@
+.profile {
+    position: relative;
+}
+
+.profile #cover {
+    position: relative;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    object-fit: contain;
+    height: auto;
+}
+
+.profile #profile-avatar {
+    position: absolute;
+    width: auto;
+    height: 150px;
+    object-fit: contain;
+    border-radius: 50%;
+    margin-right: 20px;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+}
+
+@media only screen and (max-width:748px) {
+    .profile #profile-avatar {
+        display: none
+    }
+}

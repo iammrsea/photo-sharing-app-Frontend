@@ -1,0 +1,15 @@
+#timeline-picture-card {
+    border-radius: 5px;
+
+}
+
+.timeline-picture-avatar-container {
+    display: flex;
+    align-items: center;
+}
+
+.like-comment-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

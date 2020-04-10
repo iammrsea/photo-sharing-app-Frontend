@@ -1,0 +1,11 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "UNION",
+        "name": "Node",
+        "possibleTypes": [{ "name": "User" }, { "name": "Photo" }]
+      }
+    ]
+  }
+}

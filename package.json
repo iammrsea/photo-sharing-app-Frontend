@@ -3,18 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.4",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "apollo-cache-inmemory": "^1.6.5",
+    "apollo-client": "^2.6.8",
+    "apollo-link": "^1.2.13",
+    "apollo-link-error": "^1.1.12",
+    "apollo-link-http": "^1.5.16",
+    "axios": "^0.19.2",
+    "clsx": "^1.1.0",
+    "graphql": "^15.0.0",
+    "graphql-tag": "^2.10.3",
+    "materialize-css": "^1.0.0-rc.2",
+    "moment": "^2.24.0",
+    "node-sass": "^4.13.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-infinite-scroll-component": "^5.0.4",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "react-social-login-buttons": "^3.0.0",
+    "sass-loader": "^8.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "gen": "node ./src/graphql/genFragMatcher.js"
   },
   "eslintConfig": {
     "extends": "react-app"

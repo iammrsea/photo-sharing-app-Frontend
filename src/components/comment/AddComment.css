@@ -1,0 +1,5 @@
+.avatar-comment-container {
+    display: flex;
+    align-items: center;
+    margin-top: 40px;
+}

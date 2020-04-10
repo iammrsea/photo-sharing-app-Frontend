@@ -1,0 +1,36 @@
+.avatar-container {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+}
+
+#share-picture-card {
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+#share-picture-header {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 5px;
+    border-bottom: solid 2px #eeeeee;
+
+}
+
+#share-picture-action {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 6px !important;
+}
+
+.upload-btn {
+    background-color: #e91e63;
+    color: #fff;
+}
+
+.upload-btn:hover {
+    background-color: #e91e63;
+    color: #fff;
+}

@@ -1,26 +1,40 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import 'materialize-css';
+
+import './assets/app.scss';
 import './App.css';
 
+import { Timeline, Profile, Authentication } from 'views';
+
+import GeneralLayout from 'layout/GeneralLayout';
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Router>
+			<Switch>
+				<Route
+					path="/"
+					exact
+					render={() => (
+						<GeneralLayout>
+							<Timeline />
+						</GeneralLayout>
+					)}
+				/>
+				<Route path="/signin" exact component={Authentication} />
+				<Route
+					path="/profile"
+					exact
+					render={() => (
+						<GeneralLayout>
+							<Profile />
+						</GeneralLayout>
+					)}
+				/>
+			</Switch>
+		</Router>
+	);
 }
 
 export default App;
