@@ -15,9 +15,9 @@ import SelectPicture from './SelectPicture';
 export default () => {
 	const { data, loading, error } = useQuery(USER_INFO);
 
-	if (data) {
-		console.log('user', data);
-	}
+	// if (data) {
+	// 	console.log('user', data);
+	// }
 
 	const modal = React.useRef(null);
 
@@ -48,7 +48,7 @@ export default () => {
 				</CardBody>
 				<CardAction className="center" id="share-picture-action">
 					<Flat className=" btn-auth" onClick={openModal}>
-						<MaterialIcon children="add_a_photo" />
+						<MaterialIcon children="add_a_photo" style={{ fontSize: 30 }} />
 					</Flat>
 				</CardAction>
 				<SelectPicture closeModal={closeModal} />

@@ -3,7 +3,7 @@ import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 
 import { ADD_COMMENT } from 'graphql/mutations/remote';
-import { TIMELINE_DATA } from 'graphql/queries/remote';
+import { TIMELINE_DATA, COMMENTS_ON_PHOTO } from 'graphql/queries/remote';
 
 import { Card, CardBody, CardHeader, CardAction, CardReveal, CardImage } from 'components/card';
 import { Divider, Avatar } from 'components';
@@ -17,36 +17,23 @@ import LinearProgress from 'components/linear-progress/LinearProgress';
 import Alert from 'components/alert/Alert';
 
 const AddComment = React.forwardRef(({ photoId }, ref) => {
-	console.log('rendering addcomment component');
 	const [addComment, { loading, error }] = useMutation(ADD_COMMENT, {
 		update(cache, { data: { createComment } }) {
 			console.log('addComment', createComment);
-			const { photos } = cache.readQuery({ query: TIMELINE_DATA });
-
-			const edges = photos.edges;
-			const newEdges = photos.edges.map((photo) => {
-				if (photo.node.id === photoId) {
-					return {
-						...photo,
-						node: { ...photo.node, comments: [...photo.node.comments, createComment] },
-					};
-				}
-				return photo;
-			});
-			photos.edges = newEdges;
-
-			console.log('photos ', photos);
+			const { commentsByPhotoId } = cache.readQuery({ query: COMMENTS_ON_PHOTO, variables: { photoId } });
 
 			cache.writeQuery({
-				query: TIMELINE_DATA,
-				data: { photos },
+				query: COMMENTS_ON_PHOTO,
+				variables: { photoId },
+				data: { commentsByPhotoId: [...commentsByPhotoId, createComment] },
 			});
 		},
 	});
 
 	const [comment, setComment] = React.useState('');
 
-	const handleSend = () => {
+	const handleSend = (e) => {
+		if (e.keyCode !== 13) return;
 		if (!comment) return;
 
 		const newComment = {
@@ -74,6 +61,8 @@ const AddComment = React.forwardRef(({ photoId }, ref) => {
 							labelClassName="noactive"
 							placeholder="Write a comment"
 							ref={ref}
+							onKeyUp={handleSend}
+							style={{ marginLeft: 10 }}
 						/>
 					</GridItem>
 					<div className="right-align">

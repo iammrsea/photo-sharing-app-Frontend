@@ -4,7 +4,7 @@ import InfinitScroll from 'react-infinite-scroll-component';
 import TimelinePicture from './TimelinePicture';
 import { LinearProgress } from 'components';
 
-const Photos = ({ loadMorePhotos, photos, hasNextPage, reRender }) => {
+const Photos = ({ loadMorePhotos, photos, hasNextPage }) => {
 	console.log('photos', photos);
 	return (
 		<InfinitScroll

@@ -5,7 +5,7 @@ import 'materialize-css';
 import './assets/app.scss';
 import './App.css';
 
-import { Timeline, Profile, Authentication } from 'views';
+import { Timeline, Profile, Authentication, UserProfile } from 'views';
 
 import GeneralLayout from 'layout/GeneralLayout';
 
@@ -29,6 +29,15 @@ function App() {
 					render={() => (
 						<GeneralLayout>
 							<Profile />
+						</GeneralLayout>
+					)}
+				/>
+				<Route
+					path="/profile/:id"
+					exact
+					render={() => (
+						<GeneralLayout>
+							<UserProfile />
 						</GeneralLayout>
 					)}
 				/>

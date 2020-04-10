@@ -22,6 +22,16 @@ export const PHOTO_COMMENT = gql`
 	}
 	${TIMELINE_USER}
 `;
+export const REPLY_DATA = gql`
+	fragment ReplyData on Reply {
+		id
+		content
+		replier {
+			...TimelineUser
+		}
+	}
+	${TIMELINE_USER}
+`;
 export const TIMELINE_PHOTO = gql`
 	fragment TimelinePhoto on Photo {
 		id
@@ -36,15 +46,11 @@ export const TIMELINE_PHOTO = gql`
 			...TimelineUser
 		}
 		likes {
-			id
-		}
-		comments {
-			...PhotoComment
+			likerId
 		}
 	}
 
 	${TIMELINE_USER}
-	${PHOTO_COMMENT}
 `;
 
 export const PAGE_INFO = gql`

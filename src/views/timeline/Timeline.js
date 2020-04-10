@@ -3,34 +3,26 @@ import { useQuery } from '@apollo/react-hooks';
 
 import { TIMELINE_DATA } from 'graphql/queries/remote';
 
-import { Container, LinearProgress } from 'components';
+import { LinearProgress, Alert } from 'components';
 import { GridRow, GridItem } from 'components/grid';
 import SharePicture from './components/SharePicture';
-import TimelinePicture from './components/TimelinePicture';
-import InfinitScroll from 'react-infinite-scroll-component';
 import Photos from './components/Photos';
 
 export default () => {
 	const { data, loading, error, fetchMore } = useQuery(TIMELINE_DATA);
-	console.log('time rendering');
-	if (data) {
-		console.log('data', data);
-	}
-	if (error) {
-		console.log('error', error);
-	}
 
 	return (
 		<>
-			{loading && <p>Loading....</p>}
+			{error && Alert({ message: error.message, color: 'green' })}
+			{loading && <LinearProgress />}
 			<GridRow>
-				<GridItem sm={12} md={8} mdOffset={2} lg={6} lgOffset={3}>
+				<GridItem sm={12} md={6} mdOffset={3} lg={6} lgOffset={3}>
 					<SharePicture />
 				</GridItem>
 			</GridRow>
 			{data && data.photos && (
 				<GridRow>
-					<GridItem sm={12} md={8} mdOffset={2} lg={6} lgOffset={3}>
+					<GridItem sm={12} md={6} mdOffset={3} lg={6} lgOffset={3}>
 						<Photos
 							photos={data.photos.edges || []}
 							hasNextPage={data.photos.pageInfo.hasNextPage || false}
@@ -42,7 +34,6 @@ export default () => {
 									updateQuery: (previousResult, { fetchMoreResult }) => {
 										const newEdges = fetchMoreResult.photos.edges;
 										const pageInfo = fetchMoreResult.photos.pageInfo;
-										console.log('previous result', previousResult);
 										return newEdges.length
 											? {
 													photos: {

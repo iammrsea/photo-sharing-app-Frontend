@@ -9,10 +9,10 @@ import { useHistory } from 'react-router-dom';
 import './ShowComment.css';
 
 export default ({ comment }) => {
-	// console.log('comment', comment);
+	// console.log('comment', comment.id);
 	const history = useHistory();
 	const visitProfile = () => {
-		history.push('/profile/' + comment.commentor.id);
+		history.push('/profile/' + comment.commentor.id, { id: comment.commentor.id });
 	};
 	return (
 		<div>

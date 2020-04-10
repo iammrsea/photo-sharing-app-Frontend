@@ -1,7 +1,10 @@
 import React from 'react';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient, useMutation } from '@apollo/react-hooks';
 import { Card, CardBody, CardImage } from 'components/card';
 import { Divider, Avatar } from 'components';
+
+import { TIMELINE_DATA } from 'graphql/queries/remote';
+import { LIKE_PHOTO } from 'graphql/mutations/remote';
 
 import { Flat } from 'components/buttons';
 
@@ -9,51 +12,43 @@ import './TimelinePicture.css';
 import { GridRow, GridItem } from 'components/grid';
 
 import { ShowComment, AddComment } from 'components/comment';
+import Comments from 'components/comment/Comments';
 
 export default ({ photo }) => {
+	const [likePhoto, { loading }] = useMutation(LIKE_PHOTO);
 	// console.log('photo', photo);
 	// const client = useApolloClient();
 	// console.log('cache', client.cache);
+	console.log('likes', photo.node.likes);
 	const commentRef = React.useRef(null);
 
-	const [pagedData, setPagedData] = React.useState([]);
-	const [currentPage, setCurrentPage] = React.useState(0);
-
-	const perPage = 5;
-	const totalPages = Math.ceil(photo.node.comments.length / perPage);
-
-	const next = () => {
-		let start = perPage * currentPage;
-		let end = start + perPage;
-		return photo.node.comments.slice(start, end);
+	const handleLike = () => {
+		likePhoto({
+			variables: {
+				like: {
+					photoId: photo.node.id,
+					liker: '5e8f74d6ef27741e70ce5320',
+				},
+			},
+			update(cache, { createLike }) {
+				const { photos } = cache.readQuery(TIMELINE_DATA);
+			},
+		});
+		console.log('about to like');
 	};
-
-	React.useEffect(() => {
-		let values = next();
-		setPagedData((data) => [...data, ...values]);
-	}, [currentPage]);
-
-	const handleNext = () => {
-		setCurrentPage((state) => state + 1);
-	};
-	const handlePrevious = () => {
-		setCurrentPage((state) => state - 1);
-	};
-	const showViewMore = () => {
-		return currentPage >= totalPages - 1;
-	};
+	const hasUserLiked = () => {};
 	return (
 		<Card id="timeline-picture-card">
 			<CardBody>
 				<GridRow>
 					<GridItem sm={12} className="timeline-picture-avatar-container">
 						<Avatar src="/img/cam1.jpeg" />
-						<span>Username: Timothy Flair</span>
+						<span>Username: {photo.node.owner.username}</span>
 					</GridItem>
 				</GridRow>
 				<GridRow>
 					<GridItem sm={12}>
-						<span>Picture Description</span>
+						<span>{photo.node.story}</span>
 					</GridItem>
 				</GridRow>
 				<CardImage src="/img/cam4.jpeg" />
@@ -61,14 +56,16 @@ export default ({ photo }) => {
 			<Divider />
 			<CardBody style={{ paddingTop: 5, paddingBottom: 5 }}>
 				<div className="like-comment-container">
-					<span>20 likes</span>
-					<span>200 comments</span>
+					<span>{photo.node.totalLike} likes</span>
+					<span>{photo.node.totalComment} comments</span>
 				</div>
 			</CardBody>
 			<Divider />
-			<CardBody style={{ paddingTop: 0, paddingBottom: 5 }}>
+			<CardBody style={{ paddingTop: 0, paddingBottom: 0 }}>
 				<div className="like-comment-container">
-					<Flat className="btn-auth">Like</Flat>
+					<Flat className="btn-auth" onClick={handleLike}>
+						Like
+					</Flat>
 					<Flat className="btn-auth" onClick={() => commentRef.current.focus()}>
 						Comment
 					</Flat>
@@ -76,18 +73,7 @@ export default ({ photo }) => {
 			</CardBody>
 			<Divider />
 			<CardBody>
-				{pagedData && (
-					<div>
-						{!showViewMore() && (
-							<span className="view-more-comments" onClick={handleNext}>
-								view more comments
-							</span>
-						)}
-						{pagedData.map((comment, i) => (
-							<ShowComment key={comment.id + i} comment={comment} />
-						))}
-					</div>
-				)}
+				{photo.node.id && <Comments photoId={photo.node.id} key={photo.node.cursor} />}
 
 				<AddComment ref={commentRef} photoId={photo.node.id} />
 			</CardBody>

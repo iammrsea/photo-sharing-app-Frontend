@@ -7,6 +7,10 @@
 
 }
 
+.timeline-picture-card {
+  border-radius: 5px;
+}
+
 .btn-auth {
   color: #e91e63;
   font-family: cursive;

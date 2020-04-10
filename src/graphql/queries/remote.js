@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import { TIMELINE_PHOTO, TIMELINE_USER, PAGE_INFO } from '../fragments';
+import { TIMELINE_PHOTO, PHOTO_COMMENT, TIMELINE_USER, PAGE_INFO, REPLY_DATA } from '../fragments';
 
 export const TIMELINE_DATA = gql`
 	query getTimelineData($first: Int, $after: String, $sorting: PhotoSortData, $filter: PhotoFilter) {
@@ -30,4 +30,16 @@ export const USER_INFO = gql`
 		}
 	}
 	${TIMELINE_USER}
+`;
+export const COMMENTS_ON_PHOTO = gql`
+	query getComments($photoId: ID!) {
+		commentsByPhotoId(photoId: $photoId) {
+			...PhotoComment
+			replies {
+				...ReplyData
+			}
+		}
+	}
+	${PHOTO_COMMENT}
+	${REPLY_DATA}
 `;
