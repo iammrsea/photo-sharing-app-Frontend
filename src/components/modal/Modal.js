@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 
 import { Card } from 'components/card';
 
-const Modal = ({ children, id, title }) => {
+const Modal = ({ children, id, title, className }) => {
 	return (
 		<Card>
-			<div id={id} className="modal">
+			<div id={id} className={clsx(['modal', className])}>
 				<div className="modal-content">
-					<h5 className="center-align pink-text">{title}</h5>
+					<h5 className="center-align pink-text" id="modal-title">
+						{title}
+					</h5>
 					{children}
 				</div>
 			</div>

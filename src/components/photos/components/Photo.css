@@ -13,3 +13,12 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.likes {
+    cursor: pointer;
+    color: blue;
+}
+
+.likes:hover {
+    text-decoration: underline #e91e63;
+}

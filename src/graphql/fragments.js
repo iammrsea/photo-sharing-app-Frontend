@@ -6,6 +6,7 @@ export const TIMELINE_USER = gql`
 		username
 		profile {
 			picture
+			description
 		}
 	}
 `;
@@ -26,6 +27,7 @@ export const REPLY_DATA = gql`
 	fragment ReplyData on Reply {
 		id
 		content
+		createdAt
 		replier {
 			...TimelineUser
 		}
@@ -38,16 +40,14 @@ export const TIMELINE_PHOTO = gql`
 		story
 		fileId
 		photoUrl
-		totalLike
+
 		totalComment
 		category
 		createdAt
 		owner {
 			...TimelineUser
 		}
-		likes {
-			likerId
-		}
+		likes
 	}
 
 	${TIMELINE_USER}

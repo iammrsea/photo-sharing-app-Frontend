@@ -1,33 +1,53 @@
-#avatar-comment-container {
-    display: flex;
-    align-items: center;
+.avatar-comment-container-showcomment-comp {
+	display: flex;
+	align-items: center;
 }
 
-#avatar-comment-container p {
-    display: inline-block;
-    border-radius: 10px;
-    background-color: #eeeeee;
-    padding: 5px;
+.avatar-comment-container-showcomment-comp p {
+	display: inline-block;
+	border-radius: 10px;
+	background-color: #eeeeee;
+	padding: 5px;
 }
 
-#avatar-comment-container #commentor {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 5px;
-    cursor: pointer;
+.comment-replies {
+	display: inline-block;
+	cursor: pointer;
+	color: blue;
+	margin-left: 10px;
 }
 
-#avatar-comment-container #commentor:hover {
-    text-decoration: underline;
+.reply-btn {
+	color: #e91e63;
+}
+
+.reply-btn:hover {
+	background-color: #fff;
+	color: #e91e63;
+}
+
+.comment-replies:hover {
+	text-decoration: underline #e91e63;
+}
+
+.avatar-comment-container-showcomment-comp .commentor {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+
+.avatar-comment-container-showcomment-comp .commentor:hover {
+	text-decoration: underline;
 }
 
 .view-more-comments {
-    display: block;
-    margin-bottom: 10px;
-    cursor: pointer;
-    color: #e91e63;
+	display: block;
+	margin-bottom: 10px;
+	cursor: pointer;
+	color: #e91e63;
 }
 
 .view-more-comments:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }

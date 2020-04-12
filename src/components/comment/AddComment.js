@@ -1,27 +1,29 @@
 import React from 'react';
 
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 
 import { ADD_COMMENT } from 'graphql/mutations/remote';
-import { TIMELINE_DATA, COMMENTS_ON_PHOTO } from 'graphql/queries/remote';
+import { COMMENTS_ON_PHOTO } from 'graphql/queries/remote';
 
-import { Card, CardBody, CardHeader, CardAction, CardReveal, CardImage } from 'components/card';
-import { Divider, Avatar } from 'components';
-import { MaterialIcon } from 'components/icons';
+import { GET_AUTH_USER } from 'graphql/queries/local';
+
+import { Avatar } from 'components';
 import { Flat } from 'components/buttons';
 
 import './AddComment.css';
 import { GridRow, GridItem } from 'components/grid';
 import { InputField } from 'components/material-fields';
-import LinearProgress from 'components/linear-progress/LinearProgress';
 import Alert from 'components/alert/Alert';
 
 const AddComment = React.forwardRef(({ photoId }, ref) => {
-	const [addComment, { loading, error }] = useMutation(ADD_COMMENT, {
+	const {
+		data: { authUser },
+	} = useQuery(GET_AUTH_USER);
+	const [addComment, { loading }] = useMutation(ADD_COMMENT, {
 		update(cache, { data: { createComment } }) {
-			console.log('addComment', createComment);
 			const { commentsByPhotoId } = cache.readQuery({ query: COMMENTS_ON_PHOTO, variables: { photoId } });
-
+			console.log('commentsByPhotoId', commentsByPhotoId);
+			console.log('added comment', createComment);
 			cache.writeQuery({
 				query: COMMENTS_ON_PHOTO,
 				variables: { photoId },
@@ -33,21 +35,22 @@ const AddComment = React.forwardRef(({ photoId }, ref) => {
 	const [comment, setComment] = React.useState('');
 
 	const handleSend = (e) => {
-		if (e.keyCode !== 13) return;
 		if (!comment) return;
 
-		const newComment = {
-			photoId,
-			commentor: '5e8fa889c789240b2824275c',
-			content: comment,
-		};
-		addComment({ variables: { comment: { ...newComment } } });
-		setComment('');
+		if (e.keyCode === 13 || e.type === 'click') {
+			const newComment = {
+				photoId,
+				commentor: authUser.userId,
+				content: comment,
+			};
+			addComment({ variables: { comment: { ...newComment } } }).catch((e) => {
+				Alert({ message: e.message, color: 'red' });
+			});
+			setComment('');
+		} else return;
 	};
 	return (
 		<>
-			{error && Alert({ message: error.message, color: 'red' })}
-			{loading && <LinearProgress />}
 			<div className="avatar-comment-container2">
 				<GridRow>
 					<GridItem sm={2} md={1}>

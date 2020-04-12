@@ -21,7 +21,9 @@ const authLink = new ApolloLink((operation, forward) => {
 		return {
 			headers: {
 				...headers,
-				authorization: `token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZThmYTg4OWM3ODkyNDBiMjgyNDI3NWMiLCJ1c2VybmFtZSI6Ik1pa2UgRG9lIiwiaWF0IjoxNTg2NDczMTIwLCJleHAiOjE1ODY3MzIzMjB9.6NrpmslA0tnEzV0O07Y5cCOls1bMOqsBkIHeTfAmaUo`,
+				authorization: localStorage.getItem('auth_user')
+					? `token ${JSON.parse(localStorage.getItem('auth_user')).token}`
+					: '',
 			},
 		};
 	});
@@ -37,7 +39,14 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({ introspectionQueryRes
 
 const cache = new InMemoryCache({ fragmentMatcher });
 
-const initialData = {};
+const initialData = {
+	authUser: {
+		token: localStorage.getItem('auth_user') ? JSON.parse(localStorage.getItem('auth_user')).token : '',
+		userId: localStorage.getItem('auth_user') ? JSON.parse(localStorage.getItem('auth_user')).userId : '',
+		__typename: 'AuthResponse',
+	},
+	signingInOrUp: false,
+};
 
 cache.writeData({
 	data: initialData,

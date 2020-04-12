@@ -1,15 +1,12 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container } from 'components';
+import Profile from 'views/profile/Profile';
 
 const UserProfile = () => {
 	const location = useLocation();
-	console.log('location', location);
-	return (
-		<Container>
-			<h2>Welcome to user profile ID is {location.state.id}</h2>
-		</Container>
-	);
+
+	return <Profile userId={location.state.id} />;
 };
 
 export default UserProfile;

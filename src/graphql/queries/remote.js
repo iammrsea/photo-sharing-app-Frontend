@@ -17,9 +17,43 @@ export const TIMELINE_DATA = gql`
 				}
 			}
 		}
+		me {
+			...TimelineUser
+		}
 	}
 	${TIMELINE_PHOTO}
+	${TIMELINE_USER}
+	${PAGE_INFO}
+`;
 
+export const USER_SHARED_PHOTOS = gql`
+	query user($id: ID!, $first: Int, $after: String, $sorting: PhotoSortData, $filter: PhotoFilter) {
+		user(id: $id) {
+			username
+			profile {
+				description
+				picture
+			}
+			sharedPhotos(first: $first, after: $after, sorting: $sorting, filter: $filter) {
+				pageInfo {
+					...PageMetaData
+				}
+				edges {
+					cursor
+					node {
+						... on Photo {
+							...TimelinePhoto
+						}
+					}
+				}
+			}
+		}
+		me {
+			...TimelineUser
+		}
+	}
+	${TIMELINE_PHOTO}
+	${TIMELINE_USER}
 	${PAGE_INFO}
 `;
 
@@ -42,4 +76,12 @@ export const COMMENTS_ON_PHOTO = gql`
 	}
 	${PHOTO_COMMENT}
 	${REPLY_DATA}
+`;
+export const PHOTO_LIKERS = gql`
+	query photoLikers($ids: [ID!]!) {
+		photoLikers(ids: $ids) {
+			...TimelineUser
+		}
+	}
+	${TIMELINE_USER}
 `;

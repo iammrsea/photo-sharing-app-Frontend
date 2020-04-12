@@ -1,6 +1,17 @@
 import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
 import Login from 'components/login/Login';
+import { GET_SIGNING_IN_OR_UP, GET_AUTH_USER } from 'graphql/queries/local';
+import { LinearProgress } from 'components';
 
 export default () => {
-	return <Login />;
+	const {
+		data: { signingInOrUp },
+	} = useQuery(GET_SIGNING_IN_OR_UP);
+	return (
+		<>
+			{signingInOrUp && <LinearProgress />}
+			<Login />
+		</>
+	);
 };

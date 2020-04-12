@@ -16,9 +16,33 @@ export const ADD_COMMENT = gql`
 `;
 
 export const LIKE_PHOTO = gql`
-	mutation createLike($like: CreateLikeData!) {
-		createLike(like: $like) {
-			likerId
+	mutation likePhoto($likePhotoData: LikePhoto!) {
+		likePhoto(likePhotoData: $likePhotoData) {
+			story
+		}
+	}
+`;
+export const UNLIKE_PHOTO = gql`
+	mutation unlikePhoto($unlikePhotoData: UnlikePhoto!) {
+		unlikePhoto(unlikePhotoData: $unlikePhotoData) {
+			story
+		}
+	}
+`;
+export const REPLY_COMMENT = gql`
+	mutation createReply($reply: CreateReplyData!) {
+		createReply(reply: $reply) {
+			...ReplyData
+		}
+	}
+	${REPLY_DATA}
+`;
+
+export const SIGN_IN_WITH_CREDENTIALS = gql`
+	mutation signInUsingForm($signinData: FormSigninUserData!) {
+		formSignIn(signinData: $signinData) {
+			userId
+			token
 		}
 	}
 `;

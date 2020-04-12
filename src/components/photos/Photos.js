@@ -1,11 +1,11 @@
 import React from 'react';
 import InfinitScroll from 'react-infinite-scroll-component';
 
-import TimelinePicture from './TimelinePicture';
+import Photo from './components/Photo';
 import { LinearProgress } from 'components';
 
 const Photos = ({ loadMorePhotos, photos, hasNextPage }) => {
-	console.log('photos', photos);
+	// console.log('photos', photos);
 	return (
 		<InfinitScroll
 			next={loadMorePhotos}
@@ -14,7 +14,7 @@ const Photos = ({ loadMorePhotos, photos, hasNextPage }) => {
 			loader={<LinearProgress />}
 		>
 			{photos.map((photo) => (
-				<TimelinePicture photo={photo} key={photo.node.id} />
+				<Photo photo={photo} key={photo.node.id} />
 			))}
 		</InfinitScroll>
 	);

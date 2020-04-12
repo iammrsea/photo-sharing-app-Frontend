@@ -1,16 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useQuery } from '@apollo/react-hooks';
 
 import { InputField } from 'components/material-fields';
 import { Flat } from 'components/buttons';
 import { Alert } from 'components';
+import { GET_SIGNING_IN_OR_UP, GET_AUTH_USER } from 'graphql/queries/local';
+import { useMutation } from '@apollo/react-hooks';
+import { SIGN_IN_WITH_CREDENTIALS } from 'graphql/mutations/remote';
+import { SET_SIGNING_IN_OR_UP } from 'graphql/mutations/local';
 
 export default ({ signUp }) => {
+	const {
+		data: { signingInOrUp },
+	} = useQuery(GET_SIGNING_IN_OR_UP);
 	const history = useHistory();
+
+	const [formSignIn, { loading }] = useMutation(SIGN_IN_WITH_CREDENTIALS);
+	const [setLoading] = useMutation(SET_SIGNING_IN_OR_UP);
 
 	const [emailOrUsername, setEmailOrUsername] = useState('');
 	const [password, setPassword] = useState('');
 
+	useEffect(() => {
+		setLoading({
+			variables: { state: loading },
+		});
+	}, [loading]);
 	const signIn = () => {
 		const errors = validateForm({ emailOrUsername, password });
 		if (Object.keys(errors).length > 0) {
@@ -21,7 +37,30 @@ export default ({ signUp }) => {
 			Alert({ message: errorMsgs.join(','), color: 'red' });
 			return;
 		}
-		history.push('/');
+
+		formSignIn({
+			variables: {
+				signinData: {
+					username: emailOrUsername.trim(),
+					password: password.trim(),
+				},
+			},
+			update(cache, { data: { formSignIn } }) {
+				const { authUser } = cache.readQuery({
+					query: GET_AUTH_USER,
+				});
+
+				cache.writeData({
+					data: { authUser: { ...authUser, ...formSignIn } },
+				});
+				localStorage.setItem('auth_user', JSON.stringify(formSignIn));
+				history.push('/');
+			},
+		}).catch((e) => {
+			if (e.graphQLErrors.length > 0) {
+				Alert({ message: e.graphQLErrors[0].message, color: 'red' });
+			} else Alert({ message: e.message, color: 'red' });
+		});
 	};
 	const validateForm = (values) => {
 		const errors = {};
@@ -32,6 +71,7 @@ export default ({ signUp }) => {
 		}
 		return errors;
 	};
+
 	return (
 		<>
 			<InputField
@@ -53,10 +93,10 @@ export default ({ signUp }) => {
 				labelClassName="noactive"
 			/>
 			<div className="right-align">
-				<Flat className="btn-auth" onClick={signIn}>
+				<Flat disabled={signingInOrUp} className="btn-auth" onClick={signIn}>
 					Sign In
 				</Flat>
-				<Flat onClick={signUp} className="btn-auth">
+				<Flat disabled={signingInOrUp} onClick={signUp} className="btn-auth">
 					Sign Up
 				</Flat>
 			</div>

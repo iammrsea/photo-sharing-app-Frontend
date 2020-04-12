@@ -92,7 +92,7 @@ const Comments = ({ photoId }) => {
 						</span>
 					)}
 					{deDuplicate(pagedData).map((comment, i) => (
-						<ShowComment key={comment.id} comment={comment} />
+						<ShowComment key={comment.id} comment={comment} photoId={photoId} />
 					))}
 				</div>
 			)}

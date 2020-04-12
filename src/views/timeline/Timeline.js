@@ -6,20 +6,31 @@ import { TIMELINE_DATA } from 'graphql/queries/remote';
 import { LinearProgress, Alert } from 'components';
 import { GridRow, GridItem } from 'components/grid';
 import SharePicture from './components/SharePicture';
-import Photos from './components/Photos';
+import { Photos } from 'components';
+import { GET_AUTH_USER } from 'graphql/queries/local';
 
 export default () => {
 	const { data, loading, error, fetchMore } = useQuery(TIMELINE_DATA);
 
+	const {
+		data: { authUser },
+	} = useQuery(GET_AUTH_USER);
+
+	if (data) {
+		console.log('timeline data', data);
+	}
+
 	return (
 		<>
-			{error && Alert({ message: error.message, color: 'green' })}
+			{error && Alert({ message: error.message, color: 'red' })}
 			{loading && <LinearProgress />}
-			<GridRow>
-				<GridItem sm={12} md={6} mdOffset={3} lg={6} lgOffset={3}>
-					<SharePicture />
-				</GridItem>
-			</GridRow>
+			{data && data.me && (
+				<GridRow>
+					<GridItem sm={12} md={6} mdOffset={3} lg={6} lgOffset={3}>
+						<SharePicture me={data.me} />
+					</GridItem>
+				</GridRow>
+			)}
 			{data && data.photos && (
 				<GridRow>
 					<GridItem sm={12} md={6} mdOffset={3} lg={6} lgOffset={3}>
@@ -41,6 +52,7 @@ export default () => {
 														edges: [...previousResult.photos.edges, ...newEdges],
 														pageInfo,
 													},
+													me: previousResult.me,
 											  }
 											: previousResult;
 									},

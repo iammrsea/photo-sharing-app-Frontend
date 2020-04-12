@@ -12,12 +12,8 @@ import './SharePicture.css';
 
 import SelectPicture from './SelectPicture';
 
-export default () => {
-	const { data, loading, error } = useQuery(USER_INFO);
-
-	// if (data) {
-	// 	console.log('user', data);
-	// }
+export default ({ me }) => {
+	console.log('me', me);
 
 	const modal = React.useRef(null);
 
