@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { useQuery, useMutation } from '@apollo/react-hooks';
+
+import { SET_SIGNING_IN_OR_UP } from 'graphql/mutations/local';
+import { GET_SIGNING_IN_OR_UP } from 'graphql/queries/local';
 
 import { InputField } from 'components/material-fields';
 import { CardHeader, CardBody } from 'components/card';
 import { Flat } from 'components/buttons';
-import { LinearProgress, Alert } from 'components';
+import { SIGN_UP_USING_FORM } from 'graphql/mutations/remote';
+import Alert from 'components/alert/Alert';
 
 export default ({ signIn }) => {
 	const [email, setEmail] = useState('');
 	const [username, setUsername] = useState('');
 	const [confirmPass, setConfirmPass] = useState('');
 	const [password, setPassword] = useState('');
-	const [loading, setLoading] = useState(false);
+
+	const [setLoading] = useMutation(SET_SIGNING_IN_OR_UP);
+	const [formSignUp, { loading }] = useMutation(SIGN_UP_USING_FORM);
+
+	const {
+		data: { signingInOrUp },
+	} = useQuery(GET_SIGNING_IN_OR_UP);
 
 	const signUp = () => {
 		const errors = validateForm({ email, username, confirmPass, password });
@@ -23,12 +35,29 @@ export default ({ signIn }) => {
 			Alert({ message: errorMsgs.join(','), color: 'red' });
 			return;
 		}
-		setLoading(true);
-		setTimeout(() => {
-			setLoading(false);
-		}, 2000);
-		console.log('values', { email, username, password, confirmPass });
-		return;
+		setLoading({
+			variables: { state: loading },
+		});
+		formSignUp({
+			variables: {
+				signupData: {
+					username: username.trim(),
+					email: email.trim(),
+					password: password.trim(),
+				},
+			},
+		})
+			.then((res) => {
+				Alert({ message: 'You can now sign in', color: 'green' });
+				setLoading({
+					variables: { state: false },
+				});
+				signIn();
+			})
+			.catch((e) => {
+				Alert({ message: e.message, color: 'red' });
+				console.log('error signing up', e);
+			});
 	};
 
 	const validateForm = (values) => {
@@ -52,7 +81,6 @@ export default ({ signIn }) => {
 	};
 	return (
 		<>
-			{loading && <LinearProgress />}
 			<CardBody>
 				<CardHeader className="pink-text center-align" style={{ marginBottom: 20 }}>
 					<span style={{ fontWeight: 600 }}>Sign Up</span>
@@ -94,10 +122,10 @@ export default ({ signIn }) => {
 					onChange={(e) => setConfirmPass(e.target.value)}
 				/>
 				<div className="right-align">
-					<Flat className="btn-auth" onClick={signUp}>
+					<Flat disabled={signingInOrUp} className="btn-auth" onClick={signUp}>
 						Sign Up
 					</Flat>
-					<Flat onClick={signIn} className="btn-auth">
+					<Flat disabled={signingInOrUp} onClick={signIn} className="btn-auth">
 						Sign In
 					</Flat>
 				</div>

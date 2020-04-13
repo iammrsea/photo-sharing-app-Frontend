@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 
 import { InputField } from 'components/material-fields';
 import { Flat } from 'components/buttons';
 import { Alert } from 'components';
 import { GET_SIGNING_IN_OR_UP, GET_AUTH_USER } from 'graphql/queries/local';
-import { useMutation } from '@apollo/react-hooks';
+
 import { SIGN_IN_WITH_CREDENTIALS } from 'graphql/mutations/remote';
 import { SET_SIGNING_IN_OR_UP } from 'graphql/mutations/local';
 

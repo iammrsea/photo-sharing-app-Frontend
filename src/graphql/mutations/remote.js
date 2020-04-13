@@ -46,3 +46,11 @@ export const SIGN_IN_WITH_CREDENTIALS = gql`
 		}
 	}
 `;
+
+export const SIGN_UP_USING_FORM = gql`
+	mutation signUpUsingForm($signupData: CreateUserData) {
+		formSignUp(newUser: $signupData) {
+			id
+		}
+	}
+`;
