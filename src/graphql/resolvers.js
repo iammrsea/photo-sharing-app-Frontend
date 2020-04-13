@@ -28,5 +28,23 @@ export const resolvers = {
 			cache.writeData({ id, data });
 			return null;
 		},
+		updateTotalLikes: (_, variables, { cache, getCacheKey }) => {
+			const id = getCacheKey({ __typename: 'Photo', id: variables.photoId });
+			const fragment = gql`
+				fragment updateTotalLikes on Photo {
+					likes
+				}
+			`;
+			const photo = cache.readFragment({ fragment, id });
+			let data;
+			if (variables.action === 'like') {
+				data = { ...photo, likes: [...photo.likes, variables.likerId] };
+			}
+			if (variables.action === 'unlike') {
+				data = { ...photo, likes: photo.likes.filter((id) => id !== variables.likerId) };
+			}
+			cache.writeData({ id, data });
+			return;
+		},
 	},
 };

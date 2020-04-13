@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery, useApolloClient } from '@apollo/react-hooks';
 
 import { ADD_COMMENT } from 'graphql/mutations/remote';
 import { COMMENTS_ON_PHOTO } from 'graphql/queries/remote';
@@ -14,8 +14,10 @@ import './AddComment.css';
 import { GridRow, GridItem } from 'components/grid';
 import { InputField } from 'components/material-fields';
 import Alert from 'components/alert/Alert';
+import { REPLY_ADDED } from 'graphql/subscriptions';
 
 const AddComment = React.forwardRef(({ photoId }, ref) => {
+	const client = useApolloClient();
 	const {
 		data: { authUser },
 	} = useQuery(GET_AUTH_USER);
@@ -25,9 +27,6 @@ const AddComment = React.forwardRef(({ photoId }, ref) => {
 	const [addComment, { loading }] = useMutation(ADD_COMMENT, {
 		update(cache, { data: { createComment } }) {
 			const { commentsByPhotoId } = cache.readQuery({ query: COMMENTS_ON_PHOTO, variables: { photoId } });
-			// console.log('commentsByPhotoId', commentsByPhotoId);
-			// console.log('added comment', createComment);
-			// console.log('cache', cache);
 			cache.writeQuery({
 				query: COMMENTS_ON_PHOTO,
 				variables: { photoId },
@@ -53,6 +52,15 @@ const AddComment = React.forwardRef(({ photoId }, ref) => {
 			});
 			setComment('');
 		} else return;
+	};
+	const subscribeForRepliesOnComment = (commentToSubscribe) => {
+		console.log('subscrbe was called', commentToSubscribe);
+		client
+			.subscribe({
+				query: REPLY_ADDED,
+				variables: { commentId: commentToSubscribe.id },
+			})
+			.subscribe(() => {});
 	};
 	return (
 		<>

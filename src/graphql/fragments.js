@@ -34,6 +34,18 @@ export const REPLY_DATA = gql`
 	}
 	${TIMELINE_USER}
 `;
+export const REPLY_DATA_FOR_SUB = gql`
+	fragment ReplyDataSub on Reply {
+		id
+		content
+		commentId
+		createdAt
+		replier {
+			...TimelineUser
+		}
+	}
+	${TIMELINE_USER}
+`;
 export const TIMELINE_PHOTO = gql`
 	fragment TimelinePhoto on Photo {
 		id

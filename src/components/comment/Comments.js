@@ -10,6 +10,7 @@ import ShowComment from './ShowComment';
 
 const Comments = ({ photoId }) => {
 	const client = useApolloClient();
+
 	const [updateTotalComment] = useMutation(UPDATE_TOTAL_COMMENT_COUNT);
 	const {
 		data: { authUser },

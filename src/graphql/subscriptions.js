@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import { PHOTO_COMMENT, REPLY_DATA } from './fragments';
+import { PHOTO_COMMENT, REPLY_DATA_FOR_SUB, REPLY_DATA } from './fragments';
 
 export const COMMENT_ADDED = gql`
 	subscription onCommentAdded($photoId: ID!) {
@@ -13,4 +13,21 @@ export const COMMENT_ADDED = gql`
 	}
 	${PHOTO_COMMENT}
 	${REPLY_DATA}
+`;
+
+export const REPLY_ADDED = gql`
+	subscription onReplyAdded {
+		replyAdded {
+			...ReplyDataSub
+		}
+	}
+	${REPLY_DATA_FOR_SUB}
+`;
+export const PHOTOLIKEDORUNLIKED = gql`
+	subscription onPhotoLikedOrUnliked($identifier: String!) {
+		photoLikedOrUnliked(identifier: $identifier) {
+			likerId
+			action
+		}
+	}
 `;

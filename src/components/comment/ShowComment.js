@@ -8,12 +8,13 @@ import { useHistory } from 'react-router-dom';
 
 import './ShowComment.css';
 import { InputField } from 'components/material-fields';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery, useSubscription } from '@apollo/react-hooks';
 import { REPLY_COMMENT } from 'graphql/mutations/remote';
 import { GET_AUTH_USER } from 'graphql/queries/local';
 import { COMMENTS_ON_PHOTO } from 'graphql/queries/remote';
 import { Collection, CollectionItem } from 'components/collections';
 import Alert from 'components/alert/Alert';
+import { REPLY_ADDED } from 'graphql/subscriptions';
 
 const AvatarComment = ({ user, comment, visitProfile }) => {
 	return (

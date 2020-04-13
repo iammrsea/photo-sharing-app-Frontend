@@ -16,3 +16,9 @@ export const UPDATE_TOTAL_COMMENT_COUNT = gql`
 		updateTotalCommentCount(id: $id) @client
 	}
 `;
+
+export const UPDATE_TOTAL_LIKES = gql`
+	mutation UpdateTotalLikes($photoId: ID!, $action: String!, $likerId: ID!) {
+		updateTotalLikes(photoId: $photoId, action: $action, likerId: $likerId) @client
+	}
+`;
