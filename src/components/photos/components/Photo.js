@@ -18,6 +18,7 @@ import PhotoLikers from 'components/photo-likers/PhotoLikers';
 import { PHOTOLIKEDORUNLIKED } from 'graphql/subscriptions';
 
 import { UPDATE_TOTAL_LIKES } from 'graphql/mutations/local';
+import { MaterialIcon } from 'components/icons';
 
 export default (props) => {
 	const [likePhoto, { loading }] = useMutation(LIKE_PHOTO);
@@ -192,16 +193,16 @@ export default (props) => {
 							ref={btnRef}
 						>
 							{hasUserLiked(photo.node.likes) ? (
-								<i className="fas  indigo-text fa-thumbs-up"></i>
+								<i className="fas  indigo-text fa-thumbs-up" style={{ fontSize: 22 }}></i>
 							) : (
-								<i className="fas  pink-text fa-thumbs-up"></i>
+								<i className="fas  pink-text fa-thumbs-up" style={{ fontSize: 22 }}></i>
 							)}
 						</button>
 					) : (
 						'Sending...'
 					)}
 					<Flat className="btn-auth" onClick={() => commentRef.current.focus()}>
-						Comment
+						<MaterialIcon children="comment" style={{ fontSize: 25 }} />
 					</Flat>
 				</div>
 			</CardBody>
