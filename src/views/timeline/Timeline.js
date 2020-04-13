@@ -26,14 +26,14 @@ export default () => {
 			{loading && <LinearProgress />}
 			{data && data.me && (
 				<GridRow>
-					<GridItem sm={12} md={6} mdOffset={3} lg={6} lgOffset={3}>
+					<GridItem sm={12} md={8} mdOffset={2} lg={6} lgOffset={3}>
 						<SharePicture me={data.me} />
 					</GridItem>
 				</GridRow>
 			)}
 			{data && data.photos && (
 				<GridRow>
-					<GridItem sm={12} md={6} mdOffset={3} lg={6} lgOffset={3}>
+					<GridItem sm={12} md={8} mdOffset={2} lg={6} lgOffset={3}>
 						<Photos
 							photos={data.photos.edges || []}
 							hasNextPage={data.photos.pageInfo.hasNextPage || false}

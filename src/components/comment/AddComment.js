@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 
 import { ADD_COMMENT } from 'graphql/mutations/remote';
 import { COMMENTS_ON_PHOTO } from 'graphql/queries/remote';
-
+import { UPDATE_TOTAL_COMMENT_COUNT } from 'graphql/mutations/local';
 import { GET_AUTH_USER } from 'graphql/queries/local';
 
 import { Avatar } from 'components';
@@ -14,7 +14,6 @@ import './AddComment.css';
 import { GridRow, GridItem } from 'components/grid';
 import { InputField } from 'components/material-fields';
 import Alert from 'components/alert/Alert';
-import { UPDATE_TOTAL_COMMENT_COUNT } from 'graphql/mutations/local';
 
 const AddComment = React.forwardRef(({ photoId }, ref) => {
 	const {
@@ -22,12 +21,13 @@ const AddComment = React.forwardRef(({ photoId }, ref) => {
 	} = useQuery(GET_AUTH_USER);
 
 	const [updateTotalComment] = useMutation(UPDATE_TOTAL_COMMENT_COUNT);
+
 	const [addComment, { loading }] = useMutation(ADD_COMMENT, {
 		update(cache, { data: { createComment } }) {
 			const { commentsByPhotoId } = cache.readQuery({ query: COMMENTS_ON_PHOTO, variables: { photoId } });
 			// console.log('commentsByPhotoId', commentsByPhotoId);
 			// console.log('added comment', createComment);
-			console.log('cache', cache);
+			// console.log('cache', cache);
 			cache.writeQuery({
 				query: COMMENTS_ON_PHOTO,
 				variables: { photoId },
@@ -70,15 +70,15 @@ const AddComment = React.forwardRef(({ photoId }, ref) => {
 							placeholder="Write a comment"
 							ref={ref}
 							onKeyUp={handleSend}
-							style={{ marginLeft: 10 }}
+							className="write-comment-field"
 						/>
 					</GridItem>
-					<div className="right-align">
-						<Flat disabled={loading} className="btn-auth" onClick={handleSend}>
-							Send
-						</Flat>
-					</div>
 				</GridRow>
+				<div className="right-align">
+					<Flat disabled={loading} className="btn-auth" onClick={handleSend}>
+						Send
+					</Flat>
+				</div>
 			</div>
 		</>
 	);

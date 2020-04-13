@@ -1,8 +1,10 @@
 import { InMemoryCache, IntrospectionFragmentMatcher, defaultDataIdFromObject } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
-import { ApolloLink } from 'apollo-link';
+import { ApolloLink, split } from 'apollo-link';
 import { onError } from 'apollo-link-error';
 import { HttpLink } from 'apollo-link-http';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
 
 import introspectionQueryResultData from './fragmentTypes.json';
 
@@ -33,7 +35,21 @@ const authLink = new ApolloLink((operation, forward) => {
 const httpLink = new HttpLink({
 	uri: 'http://localhost:5000/graphql',
 });
-const link = ApolloLink.from([authLink, errorLink, httpLink]);
+const wsLink = new WebSocketLink({
+	uri: 'ws://localhost:5000/graphql',
+	options: { reconnect: true },
+});
+
+const httpOrWs = split(
+	({ query }) => {
+		const definition = getMainDefinition(query);
+		return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+	},
+	wsLink,
+	httpLink
+);
+
+const link = ApolloLink.from([authLink, errorLink, httpOrWs]);
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({ introspectionQueryResultData });
 

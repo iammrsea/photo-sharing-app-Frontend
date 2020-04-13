@@ -1,12 +1,41 @@
 import React, { useEffect } from 'react';
+import { useApolloClient, useQuery, useSubscription, useMutation } from '@apollo/react-hooks';
 
-import { useApolloClient } from '@apollo/react-hooks';
 import { COMMENTS_ON_PHOTO } from 'graphql/queries/remote';
+import { COMMENT_ADDED } from 'graphql/subscriptions';
+import { GET_AUTH_USER } from 'graphql/queries/local';
+import { UPDATE_TOTAL_COMMENT_COUNT } from 'graphql/mutations/local';
 
 import ShowComment from './ShowComment';
 
 const Comments = ({ photoId }) => {
 	const client = useApolloClient();
+	const [updateTotalComment] = useMutation(UPDATE_TOTAL_COMMENT_COUNT);
+	const {
+		data: { authUser },
+	} = useQuery(GET_AUTH_USER);
+
+	useSubscription(COMMENT_ADDED, {
+		variables: { photoId },
+		onSubscriptionData({
+			client: { cache },
+			subscriptionData: {
+				data: { commentAdded },
+			},
+		}) {
+			if (authUser.userId === commentAdded.commentor.id) {
+				return;
+			}
+			const { commentsByPhotoId } = cache.readQuery({ query: COMMENTS_ON_PHOTO, variables: { photoId } });
+
+			cache.writeQuery({
+				query: COMMENTS_ON_PHOTO,
+				variables: { photoId },
+				data: { commentsByPhotoId: [...commentsByPhotoId, commentAdded] },
+			});
+			updateTotalComment({ variables: { id: photoId } });
+		},
+	});
 
 	const [pagedData, setPagedData] = React.useState([]);
 	const [currentPage, setCurrentPage] = React.useState(0);
