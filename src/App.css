@@ -16,6 +16,24 @@
   font-family: cursive;
 }
 
+.like-btn {
+  color: #e91e63;
+  font-family: cursive;
+}
+
+.like-btn:hover {
+  background: #fff;
+}
+
+.unlike-btn {
+  color: blue;
+  font-family: cursive;
+}
+
+.unlike-btn:hover {
+  background: #fff;
+}
+
 .btn-auth:hover {
   background-color: #e91e63;
   color: #fff;

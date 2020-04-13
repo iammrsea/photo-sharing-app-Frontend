@@ -1,4 +1,5 @@
 import { GET_AUTH_USER } from './queries/local';
+import gql from 'graphql-tag';
 
 export const resolvers = {
 	Mutation: {
@@ -13,6 +14,18 @@ export const resolvers = {
 			cache.writeData({
 				data: { signingInOrUp: state },
 			});
+			return null;
+		},
+		updateTotalCommentCount: (_, variables, { cache, getCacheKey }) => {
+			const id = getCacheKey({ __typename: 'Photo', id: variables.id });
+			const fragment = gql`
+				fragment updateTotalCount on Photo {
+					totalComment
+				}
+			`;
+			const photo = cache.readFragment({ fragment, id });
+			const data = { ...photo, totalComment: photo.totalComment + 1 };
+			cache.writeData({ id, data });
 			return null;
 		},
 	},

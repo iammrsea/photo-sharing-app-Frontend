@@ -14,21 +14,26 @@ import './AddComment.css';
 import { GridRow, GridItem } from 'components/grid';
 import { InputField } from 'components/material-fields';
 import Alert from 'components/alert/Alert';
+import { UPDATE_TOTAL_COMMENT_COUNT } from 'graphql/mutations/local';
 
 const AddComment = React.forwardRef(({ photoId }, ref) => {
 	const {
 		data: { authUser },
 	} = useQuery(GET_AUTH_USER);
+
+	const [updateTotalComment] = useMutation(UPDATE_TOTAL_COMMENT_COUNT);
 	const [addComment, { loading }] = useMutation(ADD_COMMENT, {
 		update(cache, { data: { createComment } }) {
 			const { commentsByPhotoId } = cache.readQuery({ query: COMMENTS_ON_PHOTO, variables: { photoId } });
-			console.log('commentsByPhotoId', commentsByPhotoId);
-			console.log('added comment', createComment);
+			// console.log('commentsByPhotoId', commentsByPhotoId);
+			// console.log('added comment', createComment);
+			console.log('cache', cache);
 			cache.writeQuery({
 				query: COMMENTS_ON_PHOTO,
 				variables: { photoId },
 				data: { commentsByPhotoId: [...commentsByPhotoId, createComment] },
 			});
+			updateTotalComment({ variables: { id: photoId } });
 		},
 	});
 

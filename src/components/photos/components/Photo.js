@@ -33,15 +33,25 @@ export default (props) => {
 	const modal = React.useRef(null);
 
 	React.useEffect(() => {
+		//Observes the query TIMELINE_DATA for changes when a photo is  liked or unliked
 		const observable = client
 			.watchQuery({
 				query: TIMELINE_DATA,
 			})
 			.subscribe(({ data: { photos } }) => {
-				console.log('watcher called', photos);
 				photos.edges.forEach((photoItem) => {
+					//Retrieves the currently viewed photo
 					if (photoItem.node.id === photo.node.id) {
+						//Checks if the viewed photo's likes attribute has changed due to like
+						//or unlike operation
 						if (photoItem.node.likes.length !== photo.node.likes.length) {
+							//Updates the currently viewed photo so that current number of likes will reflect
+							setPhoto(photoItem);
+						}
+						//Checks if the viewed photo's totalComment attribute has changed due to a user
+						//dropping a comment
+						if (photoItem.node.totalComment !== photo.node.totalComment) {
+							//Updates the currently viewed photo so that current number of comments will reflect
 							setPhoto(photoItem);
 						}
 					}
@@ -50,7 +60,7 @@ export default (props) => {
 		return function cleanup() {
 			observable.unsubscribe();
 		};
-	}, [props.photo]);
+	}, [photo]);
 
 	const handleUnlike = () => {
 		unlikePhoto({
@@ -77,7 +87,7 @@ export default (props) => {
 				});
 				photos.edges = newEdges;
 
-				console.log('photos ', photos);
+				// console.log('photos ', photos);
 
 				cache.writeQuery({
 					query: TIMELINE_DATA,
@@ -91,8 +101,7 @@ export default (props) => {
 	};
 
 	const handleLike = () => {
-		console.log('innerText', btnRef.current.innerText);
-		if (btnRef.current.innerText === 'Unlike') {
+		if (btnRef.current.children[0].classList.contains('indigo-text')) {
 			return handleUnlike();
 		}
 		likePhoto({
@@ -119,7 +128,7 @@ export default (props) => {
 				});
 				photos.edges = newEdges;
 
-				console.log('photos ', photos);
+				// console.log('photos ', photos);
 
 				cache.writeQuery({
 					query: TIMELINE_DATA,
@@ -184,10 +193,14 @@ export default (props) => {
 						<button
 							onClick={handleLike}
 							style={{ textTransform: 'capitalize' }}
-							className="btn waves-effect btn-flat btn-auth"
+							className="btn waves-effect btn-flat like-btn"
 							ref={btnRef}
 						>
-							{hasUserLiked(photo.node.likes) ? 'Unlike' : 'Like'}
+							{hasUserLiked(photo.node.likes) ? (
+								<i className="fas  indigo-text fa-thumbs-up"></i>
+							) : (
+								<i className="fas  pink-text fa-thumbs-up"></i>
+							)}
 						</button>
 					) : (
 						'Sending...'

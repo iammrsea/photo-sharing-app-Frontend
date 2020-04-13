@@ -10,3 +10,9 @@ export const SET_SIGNING_IN_OR_UP = gql`
 		setSigningInOrUp(state: $state) @client
 	}
 `;
+
+export const UPDATE_TOTAL_COMMENT_COUNT = gql`
+	mutation UpdateTotalCommentCount($id: ID!) {
+		updateTotalCommentCount(id: $id) @client
+	}
+`;
