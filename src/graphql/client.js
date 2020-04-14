@@ -2,7 +2,8 @@ import { InMemoryCache, IntrospectionFragmentMatcher, defaultDataIdFromObject } 
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink, split } from 'apollo-link';
 import { onError } from 'apollo-link-error';
-import { HttpLink } from 'apollo-link-http';
+// import { HttpLink } from 'apollo-link-http';
+import { createUploadLink } from 'apollo-upload-client';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
@@ -32,7 +33,7 @@ const authLink = new ApolloLink((operation, forward) => {
 	return forward(operation);
 });
 
-const httpLink = new HttpLink({
+const httpLink = createUploadLink({
 	uri: 'http://localhost:5000/graphql',
 });
 const wsLink = new WebSocketLink({

@@ -201,7 +201,7 @@ export default (props) => {
 					) : (
 						'Sending...'
 					)}
-					<Flat className="btn-auth" onClick={() => commentRef.current.focus()}>
+					<Flat className="comment-btn" onClick={() => commentRef.current.focus()}>
 						<MaterialIcon children="comment" style={{ fontSize: 25 }} />
 					</Flat>
 				</div>

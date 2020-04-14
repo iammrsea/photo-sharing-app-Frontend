@@ -50,7 +50,7 @@ export const TIMELINE_PHOTO = gql`
 	fragment TimelinePhoto on Photo {
 		id
 		story
-		fileId
+
 		photoUrl
 
 		totalComment

@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import { PHOTO_COMMENT, REPLY_DATA } from '../fragments';
+import { PHOTO_COMMENT, REPLY_DATA, TIMELINE_PHOTO } from '../fragments';
 
 export const ADD_COMMENT = gql`
 	mutation createComment($comment: CreateCommentData!) {
@@ -53,4 +53,13 @@ export const SIGN_UP_USING_FORM = gql`
 			id
 		}
 	}
+`;
+
+export const ADD_A_PHOTO = gql`
+	mutation createPhoto($photoData: CreatePhotoData!) {
+		createPhoto(photoData: $photoData) {
+			...TimelinePhoto
+		}
+	}
+	${TIMELINE_PHOTO}
 `;

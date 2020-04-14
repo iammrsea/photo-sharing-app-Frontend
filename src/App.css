@@ -14,15 +14,29 @@
 .btn-auth {
   color: #e91e63;
   font-family: cursive;
+
+}
+
+.comment-btn {
+  color: #e91e63;
+  font-family: cursive;
+  background-color: #eee;
+  border-radius: 10px;
+}
+
+.comment-btn:hover {
+  background-color: #eee;
 }
 
 .like-btn {
   color: #e91e63;
   font-family: cursive;
+  background-color: #eee;
+  border-radius: 10px;
 }
 
 .like-btn:hover {
-  background: #fff;
+  background: #eeeeee;
 }
 
 .unlike-btn {
