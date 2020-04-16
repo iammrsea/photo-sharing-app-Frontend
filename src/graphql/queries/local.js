@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import { PHOTO_COMMENT } from '../fragments';
+import { PHOTO_COMMENT, TIMELINE_PHOTO } from '../fragments';
 
 export const GET_AUTH_USER = gql`
 	query getAuthUser {
@@ -30,9 +30,10 @@ export const PHOTO_BY_ID = gql`
 export const GET_PHOTO_NOTIFICATIONS = gql`
 	query getNotifications {
 		notifications @client {
-			id
+			...TimelinePhoto
 		}
 	}
+	${TIMELINE_PHOTO}
 `;
 export const GET_ME_PROFILE = gql`
 	query getMeProfile($userId: ID!) {

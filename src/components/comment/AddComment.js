@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useMutation, useQuery, useApolloClient } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 
 import { ADD_COMMENT } from 'graphql/mutations/remote';
 import { COMMENTS_ON_PHOTO } from 'graphql/queries/remote';

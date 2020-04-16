@@ -64,6 +64,7 @@
   display: block;
   padding: 0 15px;
   cursor: pointer;
+
 }
 
 .sign-out:hover {
@@ -71,19 +72,24 @@
 }
 
 .sign-out .fa-sign-out-alt {
-  line-height: normal !important;
-  height: 0px;
+  /* line-height: normal !important;
+  height: 0px; */
+  height: auto !important;
+  line-height: inherit !important
 }
 
 #notifications {
   position: relative;
+  height: 56px;
 }
 
 #notifications i {
   display: inline-block !important;
-  line-height: normal;
+  /* line-height: normal;
   height: 0px;
-  padding-top: 15px;
+  padding-top: 15px; */
+  height: auto;
+  line-height: inherit;
 
 }
 
@@ -118,4 +124,40 @@ nav,
 
 .materialize-textarea {
   resize: auto !important
+}
+
+.home i {
+  height: auto !important;
+  line-height: inherit !important
+}
+
+span {
+  margin: 0px;
+  padding: 0px;
+}
+
+i {
+  font-size: 21px !important;
+}
+
+.fa-user-circle {
+  height: auto !important;
+  line-height: inherit !important
+}
+
+.fas {
+  display: block !important;
+}
+
+@media only screen and (min-width: 601px) {
+
+  /* body {
+    background-color: black
+  } */
+  #notifications {
+    height: 64px !important;
+
+
+  }
+
 }

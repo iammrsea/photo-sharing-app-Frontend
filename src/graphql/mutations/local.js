@@ -27,9 +27,14 @@ export const ADD_PHOTO_TO_LOCAL_STORE = gql`
 		addPhotoToLocalStore(photo: $photo, userId: $userId) @client
 	}
 `;
+export const REMOVE_PHOTO_FROM_LOCAL_STORE = gql`
+	mutation RemovePhotoFromLocalStore($photo: Photo!) {
+		removePhotoFromLocalStore(photo: $photo) @client
+	}
+`;
 
 export const SET_PHOTO_NOTIFICATIONS = gql`
-	mutation SetNotification($notification: Object!) {
+	mutation SetNotification($notification: Photo!) {
 		setNotification(notification: $notification) @client
 	}
 `;

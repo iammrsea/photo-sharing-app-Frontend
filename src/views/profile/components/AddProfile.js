@@ -3,12 +3,11 @@ import { Modal, Alert, LinearProgress } from 'components';
 import { Flat } from 'components/buttons';
 import { MaterialIcon } from 'components/icons';
 import { InputField } from 'components/material-fields';
-import { useMutation, useQuery, useSubscription } from '@apollo/react-hooks';
-import { ADD_A_PHOTO, ADD_USER_PROFILE } from 'graphql/mutations/remote';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { ADD_USER_PROFILE } from 'graphql/mutations/remote';
 
-import { ADD_PHOTO_TO_LOCAL_STORE, SET_PHOTO_NOTIFICATIONS, UPDATE_ME_PROFILE } from 'graphql/mutations/local';
+import { UPDATE_ME_PROFILE } from 'graphql/mutations/local';
 import { GET_AUTH_USER } from 'graphql/queries/local';
-import { PHOTO_ADDED } from 'graphql/subscriptions';
 
 export default ({ closeModal }) => {
 	const [addUserProfile, { loading }] = useMutation(ADD_USER_PROFILE);

@@ -5,7 +5,7 @@ import { SET_AUTH_USER } from 'graphql/mutations/local';
 import { MaterialIcon } from 'components/icons';
 import { GET_PHOTO_NOTIFICATIONS } from 'graphql/queries/local';
 
-export default () => {
+export default ({ openModal }) => {
 	const [removeAuthUser] = useMutation(SET_AUTH_USER);
 	const client = useApolloClient();
 
@@ -14,6 +14,10 @@ export default () => {
 	} = useQuery(GET_PHOTO_NOTIFICATIONS);
 	const history = useHistory();
 
+	const handleNotificationClick = () => {
+		if (notifications.length === 0) return;
+		openModal();
+	};
 	const signOut = () => {
 		localStorage.removeItem('auth_user');
 
@@ -37,22 +41,22 @@ export default () => {
 			<nav className="nav-wrapper pink">
 				<div className="container">
 					<ul>
-						<li className="right ">
-							<span className="sign-out" id="notifications">
-								<MaterialIcon children="notifications" />
-								<span id="notifications-value">{notifications.length}</span>
-							</span>
+						<li className="right sign-out" id="notifications" onClick={handleNotificationClick}>
+							<MaterialIcon children="notifications" />
+							<span id="notifications-value">{notifications.length}</span>
+						</li>
+						<li className="right sign-out" onClick={signOut}>
+							<i className="fas fa-sign-out-alt"></i>
 						</li>
 						<li className="right">
-							<span className="sign-out" onClick={signOut}>
-								<i className="fas fa-sign-out-alt"></i>
-							</span>
+							<NavLink to="/profile">
+								<i className="fas fa-user-circle"></i>
+							</NavLink>
 						</li>
-						<li className="right">
-							<NavLink to="/profile">Profile</NavLink>
-						</li>
-						<li className="right">
-							<NavLink to="/">Timeline</NavLink>
+						<li className="right home">
+							<NavLink to="/">
+								<MaterialIcon children="home" />
+							</NavLink>
 						</li>
 					</ul>
 				</div>

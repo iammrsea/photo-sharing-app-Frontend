@@ -19,12 +19,11 @@ export const resolvers = {
 		},
 		setNotification: (_, variables, { cache }) => {
 			const { notifications } = cache.readQuery({ query: GET_PHOTO_NOTIFICATIONS });
-			console.log('notifications', notifications);
+
 			cache.writeData({
 				data: { notifications: [...notifications, variables.notification] },
 			});
 
-			console.log('notifications', cache);
 			return variables.notification;
 		},
 		updateTotalCommentCount: (_, variables, { cache, getCacheKey }) => {
@@ -73,7 +72,17 @@ export const resolvers = {
 				data: { photos, me },
 			});
 
-			updateSharedPhotos({ cache, photo, userId });
+			if (userId) {
+				updateSharedPhotos({ cache, photo, userId });
+			}
+		},
+		removePhotoFromLocalStore(_, { photo }, { cache }) {
+			const { notifications } = cache.readQuery({ query: GET_PHOTO_NOTIFICATIONS });
+
+			cache.writeQuery({
+				query: GET_PHOTO_NOTIFICATIONS,
+				data: { notifications: notifications.filter((picture) => picture.id !== photo.id) },
+			});
 		},
 		updateMeProfile(_, { userId, profile }, { cache, getCacheKey }) {
 			const id = getCacheKey({ __typename: 'User', id: userId });

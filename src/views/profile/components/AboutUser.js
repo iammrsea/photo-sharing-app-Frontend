@@ -1,7 +1,6 @@
 import React from 'react';
 
 const AboutUser = ({ profile }) => {
-	console.log('profile', profile);
 	return (
 		<p style={{ marginBottom: 30 }}>
 			{profile

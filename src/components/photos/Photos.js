@@ -5,7 +5,7 @@ import Photo from './components/Photo';
 import { LinearProgress } from 'components';
 
 const Photos = ({ loadMorePhotos, photos, hasNextPage }) => {
-	console.log('photos', photos);
+	// console.log('photos', photos);
 	return (
 		<InfinitScroll
 			next={loadMorePhotos}

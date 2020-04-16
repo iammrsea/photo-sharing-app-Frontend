@@ -1,7 +1,4 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
-
-import { USER_INFO } from 'graphql/queries/remote';
 
 import { Card, CardBody, CardHeader, CardAction } from 'components/card';
 import { Avatar } from 'components';

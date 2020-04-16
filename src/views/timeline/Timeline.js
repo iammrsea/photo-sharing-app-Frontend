@@ -14,9 +14,9 @@ export default () => {
 
 	const [photoList, setPhotoList] = React.useState([]);
 
-	if (data) {
-		console.log('timeline data', data);
-	}
+	// if (data) {
+	// 	console.log('timeline data', data);
+	// }
 
 	React.useEffect(() => {
 		//Observes the query TIMELINE_DATA for changes when a photo is  liked or unliked

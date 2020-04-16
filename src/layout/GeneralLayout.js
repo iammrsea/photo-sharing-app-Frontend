@@ -1,10 +1,10 @@
 import React from 'react';
 import Navbar from './Navbar';
 
-export default ({ children }) => {
+export default ({ children, openModal }) => {
 	return (
 		<>
-			<Navbar />
+			<Navbar openModal={openModal} />
 			{children}
 		</>
 	);

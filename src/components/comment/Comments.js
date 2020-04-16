@@ -106,9 +106,9 @@ const Comments = ({ photoId }) => {
 	const handleNext = () => {
 		setCurrentPage((state) => state + 1);
 	};
-	const handlePrevious = () => {
-		setCurrentPage((state) => state - 1);
-	};
+	// const handlePrevious = () => {
+	// 	setCurrentPage((state) => state - 1);
+	// };
 	const showViewMore = () => {
 		return currentPage >= totalPages - 1;
 	};
