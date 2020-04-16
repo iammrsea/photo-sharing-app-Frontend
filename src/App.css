@@ -115,3 +115,7 @@ nav,
   box-shadow: none !important;
 
 }
+
+.materialize-textarea {
+  resize: auto !important
+}

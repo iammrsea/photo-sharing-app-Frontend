@@ -1,8 +1,9 @@
 import React from 'react';
 
 const AboutUser = ({ profile }) => {
+	console.log('profile', profile);
 	return (
-		<p>
+		<p style={{ marginBottom: 30 }}>
 			{profile
 				? profile.about
 				: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab voluptatum eum, rem

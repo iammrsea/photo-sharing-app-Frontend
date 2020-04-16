@@ -5,6 +5,7 @@ export const TIMELINE_USER = gql`
 		id
 		username
 		profile {
+			id
 			picture
 			about
 		}

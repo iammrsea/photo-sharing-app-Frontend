@@ -80,7 +80,7 @@ export const resolvers = {
 			const fragment = gql`
 				fragment UpdateMeProfile on User {
 					profile {
-						description
+						about
 						picture
 					}
 				}

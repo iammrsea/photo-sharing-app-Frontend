@@ -33,7 +33,7 @@ export default ({ closeModal }) => {
 			return;
 		}
 
-		console.log('submitting', { owner: authUser.userId, picture: file, description });
+		// console.log('submitting', { owner: authUser.userId, picture: file, description });
 
 		addUserProfile({
 			variables: {
@@ -58,7 +58,7 @@ export default ({ closeModal }) => {
 						profile: createProfile,
 					},
 				});
-				console.log('response ', res);
+				// console.log('response ', res);
 			})
 			.catch((e) => {
 				Alert({ message: e.message, color: 'red' });

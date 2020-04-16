@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 
 import { USER_SHARED_PHOTOS } from 'graphql/queries/remote';
 import { GET_AUTH_USER } from 'graphql/queries/local';
 
-import { LinearProgress, Alert } from 'components';
+import { LinearProgress, Alert, Divider } from 'components';
 import { Photos } from 'components';
 import { Card, CardBody, CardHeader } from 'components/card';
 import { GridRow, GridItem } from 'components/grid';
 import { Flat } from 'components/buttons';
 
 import ProfilePicture from './components/ProfilePicture';
-import AddEditProfileModal from './components/AddProfile';
+import AddProfileModal from './components/AddProfile';
+import ChangeProfilePicture from './components/ChangeProfilePicture';
+import EditProfile from './components/EditProfile';
 import AboutUser from './components/AboutUser';
+
 import './Profile.css';
 
 export default ({ userId }) => {
@@ -22,6 +25,8 @@ export default ({ userId }) => {
 	const { data, loading, error, fetchMore } = useQuery(USER_SHARED_PHOTOS, {
 		variables: { id: userId || authUser.userId },
 	});
+	const [showEditProfile, setShowEditProfile] = useState(false);
+	const [showChangeProfilePic, setShowChangeProfilePic] = useState(false);
 
 	// console.log('authUser', authUser);
 	// if (data) {
@@ -55,10 +60,11 @@ export default ({ userId }) => {
 						<GridItem sm={12}>
 							<Card>
 								<CardBody>
-									<CardHeader>
+									<CardHeader style={{ marginBottom: 30 }}>
 										<span>{data.user.username}</span>
 									</CardHeader>
-									<CardHeader>
+									<Divider />
+									<CardHeader style={{ marginTop: 30 }}>
 										<span>About</span>
 									</CardHeader>
 									{userId && <AboutUser profile={data.user.profile} />}
@@ -67,10 +73,18 @@ export default ({ userId }) => {
 										<>
 											{data.me.profile ? (
 												<div className="right-align">
-													<Flat onClick={openModal} className="btn-auth">
-														Edit Profile
+													<Flat
+														onClick={() => setShowEditProfile((state) => !state)}
+														className="btn-auth"
+													>
+														{showEditProfile ? 'Cancel' : 'Edit Profile'}
 													</Flat>
-													<Flat className="btn-auth">Change Picture</Flat>
+													<Flat
+														onClick={() => setShowChangeProfilePic((state) => !state)}
+														className="btn-auth"
+													>
+														{showChangeProfilePic ? 'Cancel' : 'Change Picture'}
+													</Flat>
 												</div>
 											) : (
 												<div className="right-align">
@@ -81,6 +95,23 @@ export default ({ userId }) => {
 											)}
 										</>
 									)}
+									{showEditProfile && (
+										<>
+											<EditProfile
+												style={{ marginTop: 30 }}
+												about={data.me.profile.about}
+												profileId={data.me.profile.id}
+												showEditProfile={setShowEditProfile}
+											/>
+										</>
+									)}
+									{showChangeProfilePic && (
+										<ChangeProfilePicture
+											style={{ marginTop: 30 }}
+											profileId={data.me.profile.id}
+											showChangeProfilePic={setShowChangeProfilePic}
+										/>
+									)}
 								</CardBody>
 							</Card>
 						</GridItem>
@@ -90,7 +121,7 @@ export default ({ userId }) => {
 					</div>
 
 					<GridRow>
-						<GridItem sm={12} md={6} mdOffset={3} lg={6} lgOffset={3}>
+						<GridItem sm={12} md={8} mdOffset={2} lg={6} lgOffset={3}>
 							<Photos
 								photos={data.user.sharedPhotos.edges || []}
 								hasNextPage={data.user.sharedPhotos.pageInfo.hasNextPage || false}
@@ -127,7 +158,7 @@ export default ({ userId }) => {
 					</GridRow>
 				</div>
 			)}
-			<AddEditProfileModal closeModal={closeModal} />
+			<AddProfileModal closeModal={closeModal} />
 		</>
 	);
 };

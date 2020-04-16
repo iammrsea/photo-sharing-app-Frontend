@@ -72,3 +72,20 @@ export const ADD_USER_PROFILE = gql`
 		}
 	}
 `;
+
+export const EDIT_USER_PROFILE = gql`
+	mutation editProfile($id: ID!, $about: String!) {
+		editProfile(id: $id, about: $about) {
+			id
+			about
+		}
+	}
+`;
+export const EDIT_USER_PROFILE_PICTURE = gql`
+	mutation editProfilePicture($id: ID!, $picture: Upload!) {
+		editProfilePicture(id: $id, picture: $picture) {
+			id
+			picture
+		}
+	}
+`;
