@@ -1,5 +1,6 @@
 import React from 'react';
 import { useApolloClient, useMutation, useQuery, useSubscription } from '@apollo/react-hooks';
+import { useHistory } from 'react-router-dom';
 import { Card, CardBody, CardImage } from 'components/card';
 import { Divider, Avatar, Alert } from 'components';
 
@@ -28,6 +29,8 @@ export default (props) => {
 
 	const client = useApolloClient();
 	const [photo, setPhoto] = React.useState(props.photo);
+
+	const history = useHistory();
 
 	const {
 		data: { authUser },
@@ -147,6 +150,12 @@ export default (props) => {
 		openModal(id);
 	};
 
+	const visitProfile = (id) => {
+		if (authUser.userId === id) {
+			return history.push('/profile');
+		}
+		history.push('/profile/' + id, { id });
+	};
 	const openModal = (id) => {
 		const elems = document.querySelectorAll('.likers-modal' + id);
 		// eslint-disable-next-line
@@ -164,7 +173,9 @@ export default (props) => {
 				<GridRow>
 					<GridItem sm={12} className="timeline-picture-avatar-container">
 						<Avatar src={photo.node.owner.profile ? photo.node.owner.profile.picture : '/img/cam1.jpeg'} />
-						<span>{photo.node.owner.username}</span>
+						<span onClick={() => visitProfile(photo.node.owner.id)} className="pink-text username">
+							{photo.node.owner.username}
+						</span>
 					</GridItem>
 				</GridRow>
 				<GridRow>

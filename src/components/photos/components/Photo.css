@@ -22,3 +22,10 @@
 .likes:hover {
     text-decoration: underline blue;
 }
+
+.username {
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 18px;
+
+}
