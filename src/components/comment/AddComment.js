@@ -5,7 +5,7 @@ import { useMutation, useQuery, useApolloClient } from '@apollo/react-hooks';
 import { ADD_COMMENT } from 'graphql/mutations/remote';
 import { COMMENTS_ON_PHOTO } from 'graphql/queries/remote';
 import { UPDATE_TOTAL_COMMENT_COUNT } from 'graphql/mutations/local';
-import { GET_AUTH_USER } from 'graphql/queries/local';
+import { GET_AUTH_USER, GET_ME_PROFILE } from 'graphql/queries/local';
 
 import { Avatar } from 'components';
 import { Flat } from 'components/buttons';
@@ -14,16 +14,17 @@ import './AddComment.css';
 import { GridRow, GridItem } from 'components/grid';
 import { InputField } from 'components/material-fields';
 import Alert from 'components/alert/Alert';
-import { REPLY_ADDED } from 'graphql/subscriptions';
 
 const AddComment = React.forwardRef(({ photoId }, ref) => {
-	const client = useApolloClient();
 	const {
 		data: { authUser },
 	} = useQuery(GET_AUTH_USER);
 
 	const [updateTotalComment] = useMutation(UPDATE_TOTAL_COMMENT_COUNT);
 
+	const { data: meProfileData } = useQuery(GET_ME_PROFILE, { variables: { userId: authUser.userId } });
+
+	// console.log('me profile data', meProfileData);
 	const [addComment, { loading }] = useMutation(ADD_COMMENT, {
 		update(cache, { data: { createComment } }) {
 			const { commentsByPhotoId } = cache.readQuery({ query: COMMENTS_ON_PHOTO, variables: { photoId } });
@@ -53,21 +54,19 @@ const AddComment = React.forwardRef(({ photoId }, ref) => {
 			setComment('');
 		} else return;
 	};
-	const subscribeForRepliesOnComment = (commentToSubscribe) => {
-		console.log('subscrbe was called', commentToSubscribe);
-		client
-			.subscribe({
-				query: REPLY_ADDED,
-				variables: { commentId: commentToSubscribe.id },
-			})
-			.subscribe(() => {});
-	};
+
 	return (
 		<>
 			<div className="avatar-comment-container2">
 				<GridRow>
 					<GridItem sm={2} md={1}>
-						<Avatar src="/img/cam1.jpeg" />
+						<Avatar
+							src={
+								meProfileData && meProfileData.getMeProfile.profile
+									? meProfileData.getMeProfile.profile.picture
+									: '/img/cam1.jpeg'
+							}
+						/>
 					</GridItem>
 					<GridItem sm={10} md={11}>
 						<InputField

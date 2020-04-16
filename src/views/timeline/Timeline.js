@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
 
 import { TIMELINE_DATA } from 'graphql/queries/remote';
 
@@ -7,18 +7,32 @@ import { LinearProgress, Alert } from 'components';
 import { GridRow, GridItem } from 'components/grid';
 import SharePicture from './components/SharePicture';
 import { Photos } from 'components';
-import { GET_AUTH_USER } from 'graphql/queries/local';
 
 export default () => {
 	const { data, loading, error, fetchMore } = useQuery(TIMELINE_DATA);
+	const client = useApolloClient();
 
-	const {
-		data: { authUser },
-	} = useQuery(GET_AUTH_USER);
+	const [photoList, setPhotoList] = React.useState([]);
 
 	if (data) {
 		console.log('timeline data', data);
 	}
+
+	React.useEffect(() => {
+		//Observes the query TIMELINE_DATA for changes when a photo is  liked or unliked
+		const observable = client
+			.watchQuery({
+				query: TIMELINE_DATA,
+			})
+			.subscribe(({ data: { photos } }) => {
+				if (photoList.length !== photos.edges.length) {
+					setPhotoList(photos.edges);
+				}
+			});
+		return function cleanup() {
+			observable.unsubscribe();
+		};
+	}, []);
 
 	return (
 		<>
@@ -35,7 +49,7 @@ export default () => {
 				<GridRow>
 					<GridItem sm={12} md={8} mdOffset={2} lg={6} lgOffset={3}>
 						<Photos
-							photos={data.photos.edges || []}
+							photos={photoList}
 							hasNextPage={data.photos.pageInfo.hasNextPage || false}
 							loadMorePhotos={() => {
 								fetchMore({

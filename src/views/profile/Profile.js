@@ -11,6 +11,7 @@ import { GridRow, GridItem } from 'components/grid';
 import { Flat } from 'components/buttons';
 
 import ProfilePicture from './components/ProfilePicture';
+import AddEditProfileModal from './components/AddProfile';
 import AboutUser from './components/AboutUser';
 import './Profile.css';
 
@@ -22,9 +23,28 @@ export default ({ userId }) => {
 		variables: { id: userId || authUser.userId },
 	});
 
+	// console.log('authUser', authUser);
+	// if (data) {
+	// 	console.log('photos shared', data);
+	// }
+	const modal = React.useRef(null);
+
+	React.useEffect(() => {
+		const elems = document.querySelectorAll('.add-profile-modal');
+		// eslint-disable-next-line
+		const instances = M.Modal.init(elems);
+		modal.current = instances[0];
+	});
+	const openModal = () => {
+		modal.current.open();
+	};
+	const closeModal = () => {
+		modal.current.close();
+	};
+
 	return (
 		<>
-			{error && Alert({ message: error.message, color: 'green' })}
+			{error && Alert({ message: error.message, color: 'red' })}
 			{loading && <LinearProgress />}
 
 			{data && data.me && !userId && <ProfilePicture profile={data.me.profile} />}
@@ -44,10 +64,22 @@ export default ({ userId }) => {
 									{userId && <AboutUser profile={data.user.profile} />}
 									{!userId && <AboutUser profile={data.me.profile} />}
 									{!userId && (
-										<div className="right-align">
-											<Flat className="btn-auth">Edit Profile</Flat>
-											<Flat className="btn-auth">Change Picture</Flat>
-										</div>
+										<>
+											{data.me.profile ? (
+												<div className="right-align">
+													<Flat onClick={openModal} className="btn-auth">
+														Edit Profile
+													</Flat>
+													<Flat className="btn-auth">Change Picture</Flat>
+												</div>
+											) : (
+												<div className="right-align">
+													<Flat onClick={openModal} className="btn-auth ">
+														Add Profile
+													</Flat>
+												</div>
+											)}
+										</>
 									)}
 								</CardBody>
 							</Card>
@@ -95,6 +127,7 @@ export default ({ userId }) => {
 					</GridRow>
 				</div>
 			)}
+			<AddEditProfileModal closeModal={closeModal} />
 		</>
 	);
 };

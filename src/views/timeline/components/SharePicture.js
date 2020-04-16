@@ -13,7 +13,7 @@ import './SharePicture.css';
 import SelectPicture from './SelectPicture';
 
 export default ({ me }) => {
-	console.log('me', me);
+	// console.log('me', me);
 
 	const modal = React.useRef(null);
 
@@ -38,7 +38,7 @@ export default ({ me }) => {
 
 				<CardBody>
 					<div className="avatar-container">
-						<Avatar src="/img/cam1.jpeg" />
+						<Avatar src={me.profile ? me.profile.picture : '/img/cam1.jpeg'} />
 						<span>Would you like to share a picture?</span>
 					</div>
 				</CardBody>

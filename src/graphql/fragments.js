@@ -6,7 +6,7 @@ export const TIMELINE_USER = gql`
 		username
 		profile {
 			picture
-			description
+			about
 		}
 	}
 `;
@@ -49,7 +49,7 @@ export const REPLY_DATA_FOR_SUB = gql`
 export const TIMELINE_PHOTO = gql`
 	fragment TimelinePhoto on Photo {
 		id
-		story
+		description
 
 		photoUrl
 

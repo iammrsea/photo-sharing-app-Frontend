@@ -137,6 +137,7 @@ export default (props) => {
 			});
 	};
 	const hasUserLiked = (likeList = []) => {
+		// console.log('likeList and photoId ', likeList, photo.node.id);
 		return likeList.findIndex((id) => id === authUser.userId) > -1;
 	};
 	const handleLikesClick = (id) => {
@@ -162,16 +163,16 @@ export default (props) => {
 			<CardBody>
 				<GridRow>
 					<GridItem sm={12} className="timeline-picture-avatar-container">
-						<Avatar src="/img/cam1.jpeg" />
-						<span>Username: {photo.node.owner.username}</span>
+						<Avatar src={photo.node.owner.profile ? photo.node.owner.profile.picture : '/img/cam1.jpeg'} />
+						<span>{photo.node.owner.username}</span>
 					</GridItem>
 				</GridRow>
 				<GridRow>
 					<GridItem sm={12}>
-						<span>{photo.node.story}</span>
+						<span>{photo.node.description}</span>
 					</GridItem>
 				</GridRow>
-				<CardImage src="/img/cam4.jpeg" />
+				<CardImage src={photo.node.photoUrl || '/img/cam4.jpeg'} />
 			</CardBody>
 			<Divider />
 			<CardBody style={{ paddingTop: 5, paddingBottom: 5 }}>

@@ -27,7 +27,7 @@
 }
 
 .comment-replies:hover {
-	text-decoration: underline #e91e63;
+	text-decoration: underline blue;
 }
 
 .avatar-comment-container-showcomment-comp .commentor {
@@ -43,9 +43,13 @@
 
 .view-more-comments {
 	display: block;
-	margin-bottom: 10px;
+	margin-bottom: 26px;
 	cursor: pointer;
-	color: #e91e63;
+	color: blue;
+	background: #eee;
+	width: fit-content;
+	padding: 10px;
+	border-radius: 10px;
 }
 
 .view-more-comments:hover {

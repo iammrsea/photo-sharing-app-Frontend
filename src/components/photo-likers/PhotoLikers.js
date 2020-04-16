@@ -20,7 +20,7 @@ const styles = {
 const User = ({ user, visitProfile }) => {
 	return (
 		<div style={styles.user} onClick={visitProfile}>
-			<Avatar src="/img/cam1.jpeg" />
+			<Avatar src={user.profile ? user.profile.picture : '/img/cam1.jpeg'} />
 			<p>
 				<span>{user.username}</span>
 			</p>
@@ -30,6 +30,8 @@ const User = ({ user, visitProfile }) => {
 
 export default ({ closeModal, ids, photoId }) => {
 	const history = useHistory();
+
+	// console.log('ids', ids);
 
 	const [photoLikers, setLikers] = useState([]);
 
@@ -48,6 +50,7 @@ export default ({ closeModal, ids, photoId }) => {
 				},
 			})
 			.then((res) => {
+				// console.log('likers and photoId ', res.data, photoId);
 				setLikers(res.data.photoLikers);
 			})
 			.catch((e) => {

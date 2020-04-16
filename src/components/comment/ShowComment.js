@@ -19,7 +19,7 @@ import { REPLY_ADDED } from 'graphql/subscriptions';
 const AvatarComment = ({ user, comment, visitProfile }) => {
 	return (
 		<div className="avatar-comment-container-showcomment-comp">
-			<Avatar src="/img/cam1.jpeg" />
+			<Avatar src={user.profile ? user.profile.picture : '/img/cam1.jpeg'} />
 			<p>
 				<span onClick={visitProfile} className="commentor">
 					{user.username}
@@ -40,7 +40,7 @@ const Replies = ({ comment, visitProfile }) => {
 						comment={reply}
 						visitProfile={() => visitProfile(reply.replier.id)}
 					/>
-					<span style={{ color: '#e91e63' }}>{moment(+reply.createdAt).fromNow()}</span>
+					<span>{moment(+reply.createdAt).fromNow()}</span>
 				</CollectionItem>
 			))}
 		</Collection>
@@ -75,7 +75,7 @@ export default ({ comment, photoId }) => {
 		createReply({
 			variables: {
 				reply: {
-					replierId: authUser.userId,
+					replier: authUser.userId,
 					commentId: comment.id,
 					content: reply,
 				},

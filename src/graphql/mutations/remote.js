@@ -18,14 +18,14 @@ export const ADD_COMMENT = gql`
 export const LIKE_PHOTO = gql`
 	mutation likePhoto($likePhotoData: LikePhoto!) {
 		likePhoto(likePhotoData: $likePhotoData) {
-			story
+			description
 		}
 	}
 `;
 export const UNLIKE_PHOTO = gql`
 	mutation unlikePhoto($unlikePhotoData: UnlikePhoto!) {
 		unlikePhoto(unlikePhotoData: $unlikePhotoData) {
-			story
+			description
 		}
 	}
 `;
@@ -62,4 +62,13 @@ export const ADD_A_PHOTO = gql`
 		}
 	}
 	${TIMELINE_PHOTO}
+`;
+
+export const ADD_USER_PROFILE = gql`
+	mutation createProfile($profileData: CreateProfileData!) {
+		createProfile(profileData: $profileData) {
+			picture
+			about
+		}
+	}
 `;

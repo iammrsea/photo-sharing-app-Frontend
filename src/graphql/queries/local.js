@@ -26,3 +26,20 @@ export const PHOTO_BY_ID = gql`
 	}
 	${PHOTO_COMMENT}
 `;
+
+export const GET_PHOTO_NOTIFICATIONS = gql`
+	query getNotifications {
+		notifications @client {
+			id
+		}
+	}
+`;
+export const GET_ME_PROFILE = gql`
+	query getMeProfile($userId: ID!) {
+		getMeProfile(userId: $userId) @client {
+			profile {
+				picture
+			}
+		}
+	}
+`;

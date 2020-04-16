@@ -69,3 +69,49 @@
 .sign-out:hover {
   background-color: rgba(0, 0, 0, 0.1)
 }
+
+.sign-out .fa-sign-out-alt {
+  line-height: normal !important;
+  height: 0px;
+}
+
+#notifications {
+  position: relative;
+}
+
+#notifications i {
+  display: inline-block !important;
+  line-height: normal;
+  height: 0px;
+  padding-top: 15px;
+
+}
+
+#notifications-value {
+  background: blue;
+  border-radius: 5px;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  position: relative;
+  top: -15px;
+  left: -8px;
+  padding: 4px;
+}
+
+
+.z-depth-1,
+nav,
+.card-panel,
+.card,
+.toast,
+.btn,
+.btn-large,
+.btn-small,
+.btn-floating,
+.dropdown-content,
+.collapsible,
+.sidenav {
+  box-shadow: none !important;
+
+}

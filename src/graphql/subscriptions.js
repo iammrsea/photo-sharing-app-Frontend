@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import { PHOTO_COMMENT, REPLY_DATA_FOR_SUB, REPLY_DATA } from './fragments';
+import { PHOTO_COMMENT, REPLY_DATA_FOR_SUB, REPLY_DATA, TIMELINE_PHOTO } from './fragments';
 
 export const COMMENT_ADDED = gql`
 	subscription onCommentAdded($photoId: ID!) {
@@ -30,4 +30,12 @@ export const PHOTOLIKEDORUNLIKED = gql`
 			action
 		}
 	}
+`;
+export const PHOTO_ADDED = gql`
+	subscription onPhotoAdded {
+		photoAdded {
+			...TimelinePhoto
+		}
+	}
+	${TIMELINE_PHOTO}
 `;

@@ -9,7 +9,6 @@ export const TIMELINE_DATA = gql`
 				...PageMetaData
 			}
 			edges {
-				cursor
 				node {
 					... on Photo {
 						...TimelinePhoto
@@ -31,7 +30,7 @@ export const USER_SHARED_PHOTOS = gql`
 		user(id: $id) {
 			username
 			profile {
-				description
+				about
 				picture
 			}
 			sharedPhotos(first: $first, after: $after, sorting: $sorting, filter: $filter) {
@@ -39,7 +38,7 @@ export const USER_SHARED_PHOTOS = gql`
 					...PageMetaData
 				}
 				edges {
-					cursor
+					
 					node {
 						... on Photo {
 							...TimelinePhoto

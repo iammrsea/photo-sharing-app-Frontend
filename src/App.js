@@ -35,7 +35,11 @@ function App() {
 				<Route
 					path="/signin"
 					exact
-					render={() => {
+					render={({ history: { location } }) => {
+						console.log('authUser', authUser);
+						if (location.state && location.state.logout) {
+							return <Authentication />;
+						}
 						if (authUser.token) {
 							return <Redirect to="/" />;
 						}

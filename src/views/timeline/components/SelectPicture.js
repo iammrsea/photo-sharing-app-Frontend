@@ -3,20 +3,19 @@ import { Modal, Alert, LinearProgress } from 'components';
 import { Flat } from 'components/buttons';
 import { MaterialIcon } from 'components/icons';
 import { InputField } from 'components/material-fields';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery, useSubscription } from '@apollo/react-hooks';
 import { ADD_A_PHOTO } from 'graphql/mutations/remote';
 
-import { SET_SIGNING_IN_OR_UP } from 'graphql/mutations/local';
-import { GET_SIGNING_IN_OR_UP, GET_AUTH_USER } from 'graphql/queries/local';
+import { ADD_PHOTO_TO_LOCAL_STORE, SET_PHOTO_NOTIFICATIONS } from 'graphql/mutations/local';
+import { GET_AUTH_USER } from 'graphql/queries/local';
+import { PHOTO_ADDED } from 'graphql/subscriptions';
 
 export default ({ closeModal }) => {
 	const [addPhoto, { loading }] = useMutation(ADD_A_PHOTO);
 
-	const [setLoading] = useMutation(SET_SIGNING_IN_OR_UP);
+	const [addPhotoToLocalStore] = useMutation(ADD_PHOTO_TO_LOCAL_STORE);
 
-	const {
-		data: { signingInOrUp },
-	} = useQuery(GET_SIGNING_IN_OR_UP);
+	const [notifyUsers] = useMutation(SET_PHOTO_NOTIFICATIONS);
 
 	const {
 		data: { authUser },
@@ -26,6 +25,19 @@ export default ({ closeModal }) => {
 	const [description, setDescription] = useState('');
 	const [tags, setTags] = useState('');
 	const [category, setCategory] = useState('');
+
+	useSubscription(PHOTO_ADDED, {
+		onSubscriptionData({
+			client: { cache },
+			subscriptionData: {
+				data: { photoAdded },
+			},
+		}) {
+			if (photoAdded.owner.id === authUser.userId) return;
+
+			notifyUsers({ variables: { notification: photoAdded } });
+		},
+	});
 
 	const submitPhoto = () => {
 		const errors = validateForm({ file, description, category });
@@ -39,35 +51,32 @@ export default ({ closeModal }) => {
 			return;
 		}
 
-		setLoading({
-			variables: { state: loading },
-		});
-
 		addPhoto({
 			variables: {
 				photoData: {
-					ownerId: authUser.userId,
+					owner: authUser.userId,
 					photo: file,
-					story: description,
+					description,
 					taggedUsers: !tags ? [] : tags.split('@').filter((v) => v !== ''),
 					category,
 				},
 			},
 		})
 			.then((res) => {
+				setCategory('');
+				setFile(null);
+				setDescription('');
 				closeModal();
-				console.log('response from server', res);
 				Alert({ message: 'Successfully Added', color: 'green' });
-				setLoading({
-					variables: { state: false },
-				});
+
+				addPhotoToLocalStore({ variables: { photo: res.data.createPhoto, userId: authUser.userId } });
 			})
 			.catch((e) => {
 				Alert({ message: e.message, color: 'red' });
 				console.log('error sharing photo', e);
 			});
 
-		console.log('submitting', { file, description, category, tags });
+		// console.log('submitting', { file, description, category, tags });
 	};
 	const handleFileInput = (e) => {
 		setFile(e.target.files[0]);
@@ -87,7 +96,6 @@ export default ({ closeModal }) => {
 
 	return (
 		<>
-			{signingInOrUp && <LinearProgress />}
 			<Modal title="Select">
 				<div className="file-field input-field">
 					<Flat className="upload-btn">
@@ -132,12 +140,13 @@ export default ({ closeModal }) => {
 					onChange={(e) => setTags(e.target.value)}
 				/>
 				<div className="right-align">
-					<Flat disabled={signingInOrUp} className="btn-auth" onClick={submitPhoto}>
+					<Flat disabled={loading} className="btn-auth" onClick={submitPhoto}>
 						Share
 					</Flat>
-					<Flat disabled={signingInOrUp} className="btn-auth" onClick={closeModal}>
+					<Flat disabled={loading} className="btn-auth" onClick={closeModal}>
 						Close
 					</Flat>
+					{loading && <LinearProgress />}
 				</div>
 			</Modal>
 		</>

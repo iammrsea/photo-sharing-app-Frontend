@@ -1,4 +1,4 @@
-import { InMemoryCache, IntrospectionFragmentMatcher, defaultDataIdFromObject } from 'apollo-cache-inmemory';
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink, split } from 'apollo-link';
 import { onError } from 'apollo-link-error';
@@ -63,6 +63,7 @@ const initialData = {
 		__typename: 'AuthResponse',
 	},
 	signingInOrUp: false,
+	notifications: [],
 };
 
 cache.writeData({
