@@ -89,3 +89,12 @@ export const EDIT_USER_PROFILE_PICTURE = gql`
 		}
 	}
 `;
+
+export const SIGN_IN_WITH_PROVIDER = gql`
+	mutation providerSignIn($signinData: ProviderSignInData!) {
+		providerSignIn(signinData: $signinData) {
+			token
+			userId
+		}
+	}
+`;

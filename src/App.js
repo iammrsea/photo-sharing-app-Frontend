@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import 'materialize-css';
 
@@ -11,8 +11,10 @@ import { Timeline, Profile, Authentication, UserProfile, SearchPhotoList } from 
 
 import GeneralLayout from 'layout/GeneralLayout';
 import NotificationList from 'views/notifications/NotificationList';
+import { SET_GITHUB_CODE } from 'graphql/mutations/local';
 
 function App() {
+	const client = useApolloClient();
 	const {
 		data: { authUser },
 	} = useQuery(GET_AUTH_USER);
@@ -20,6 +22,16 @@ function App() {
 		data: { notifications },
 	} = useQuery(GET_PHOTO_NOTIFICATIONS);
 
+	const setCode = (code) => {
+		client
+			.mutate({
+				mutation: SET_GITHUB_CODE,
+				variables: { value: code },
+			})
+			.catch((e) => {
+				console.log('error', e);
+			});
+	};
 	const modal = React.useRef(null);
 
 	const openModal = () => {
@@ -54,9 +66,13 @@ function App() {
 					<Route
 						path="/signin"
 						exact
-						render={({ history: { location } }) => {
-							// console.log('authUser', authUser);
-							if (location.state && location.state.logout) {
+						render={({ history }) => {
+							if (history.location.search.match(/code=/)) {
+								const code = history.location.search.replace('?code=', '');
+								setCode(code);
+								history.replace('/signin');
+							}
+							if (history.location.state && history.location.state.logout) {
 								return <Authentication />;
 							}
 							if (authUser.token) {

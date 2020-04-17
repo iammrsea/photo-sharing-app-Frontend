@@ -15,6 +15,11 @@ export const GET_SIGNING_IN_OR_UP = gql`
 		signingInOrUp @client
 	}
 `;
+export const GET_GITHUB_CODE = gql`
+	query getGithubCode {
+		githubCode @client
+	}
+`;
 
 export const PHOTO_BY_ID = gql`
 	query photoById($id: ID!) {

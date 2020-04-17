@@ -24,9 +24,10 @@ const SignIn = ({ signUp }) => {
 			<CardHeader className="pink-text center-align" style={{ marginBottom: 20 }}>
 				<span style={{ fontWeight: 600 }}>Sign In</span>
 			</CardHeader>
-			<Facebook />
+
 			<Github />
 			<Google />
+			<Facebook />
 			<CardHeader className="pink-text center-align" style={{ marginTop: 20 }}>
 				<span style={{ fontWeight: 600 }}>OR</span>
 			</CardHeader>

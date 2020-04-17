@@ -10,6 +10,11 @@ export const SET_SIGNING_IN_OR_UP = gql`
 		setSigningInOrUp(state: $state) @client
 	}
 `;
+export const SET_GITHUB_CODE = gql`
+	mutation setGithubCode($value: String!) {
+		setGithubCode(value: $value) @client
+	}
+`;
 
 export const UPDATE_TOTAL_COMMENT_COUNT = gql`
 	mutation UpdateTotalCommentCount($id: ID!) {

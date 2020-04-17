@@ -17,6 +17,12 @@ export const resolvers = {
 			});
 			return null;
 		},
+		setGithubCode: (_, { value }, { cache }) => {
+			cache.writeData({
+				data: { githubCode: value },
+			});
+			return null;
+		},
 		setNotification: (_, variables, { cache }) => {
 			const { notifications } = cache.readQuery({ query: GET_PHOTO_NOTIFICATIONS });
 

@@ -64,6 +64,7 @@ const initialData = {
 	},
 	signingInOrUp: false,
 	notifications: [],
+	githubCode: '',
 };
 
 cache.writeData({

@@ -54,7 +54,9 @@ export default ({ signUp }) => {
 					data: { authUser: { ...authUser, ...formSignIn } },
 				});
 				localStorage.setItem('auth_user', JSON.stringify(formSignIn));
-				history.push('/');
+				setTimeout(() => {
+					history.push('/');
+				}, 0);
 			},
 		}).catch((e) => {
 			if (e.graphQLErrors.length > 0) {
