@@ -123,6 +123,7 @@ export default ({ userId }) => {
 					<GridRow>
 						<GridItem sm={12} md={8} mdOffset={2} lg={6} lgOffset={3}>
 							<Photos
+								userIdForSharedPhotos={userId}
 								photos={data.user.sharedPhotos.edges || []}
 								hasNextPage={data.user.sharedPhotos.pageInfo.hasNextPage || false}
 								loadMorePhotos={() => {

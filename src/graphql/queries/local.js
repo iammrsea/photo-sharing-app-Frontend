@@ -35,6 +35,7 @@ export const GET_PHOTO_NOTIFICATIONS = gql`
 	}
 	${TIMELINE_PHOTO}
 `;
+
 export const GET_ME_PROFILE = gql`
 	query getMeProfile($userId: ID!) {
 		getMeProfile(userId: $userId) @client {

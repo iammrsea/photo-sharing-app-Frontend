@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { Card, CardBody, CardImage } from 'components/card';
 import { Divider, Avatar, Alert } from 'components';
 
-import { TIMELINE_DATA } from 'graphql/queries/remote';
+import { TIMELINE_DATA, USER_SHARED_PHOTOS } from 'graphql/queries/remote';
 import { LIKE_PHOTO, UNLIKE_PHOTO } from 'graphql/mutations/remote';
 import { GET_AUTH_USER } from 'graphql/queries/local';
 
@@ -59,33 +59,52 @@ export default (props) => {
 		},
 	});
 
+	const updatePhotoStatus = (photos) => {
+		photos.edges.forEach((photoItem) => {
+			//Retrieves the currently viewed photo
+			if (photoItem.node.id === photo.node.id) {
+				//Checks if the viewed photo's likes attribute has changed due to like
+				//or unlike operation
+				if (photoItem.node.likes.length !== photo.node.likes.length) {
+					//Updates the currently viewed photo so that current number of likes will reflect
+					setPhoto(photoItem);
+				}
+				//Checks if the viewed photo's totalComment attribute has changed due to a user
+				//dropping a comment
+				if (photoItem.node.totalComment !== photo.node.totalComment) {
+					//Updates the currently viewed photo so that current number of comments will reflect
+					setPhoto(photoItem);
+				}
+			}
+		});
+	};
 	React.useEffect(() => {
 		//Observes the query TIMELINE_DATA for changes when a photo is  liked or unliked
-		const observable = client
+		const observable1 = client
 			.watchQuery({
 				query: TIMELINE_DATA,
 			})
 			.subscribe(({ data: { photos } }) => {
-				photos.edges.forEach((photoItem) => {
-					//Retrieves the currently viewed photo
-					if (photoItem.node.id === photo.node.id) {
-						//Checks if the viewed photo's likes attribute has changed due to like
-						//or unlike operation
-						if (photoItem.node.likes.length !== photo.node.likes.length) {
-							//Updates the currently viewed photo so that current number of likes will reflect
-							setPhoto(photoItem);
-						}
-						//Checks if the viewed photo's totalComment attribute has changed due to a user
-						//dropping a comment
-						if (photoItem.node.totalComment !== photo.node.totalComment) {
-							//Updates the currently viewed photo so that current number of comments will reflect
-							setPhoto(photoItem);
-						}
-					}
-				});
+				updatePhotoStatus(photos);
 			});
+
+		const observable2 = client
+			.watchQuery({
+				query: USER_SHARED_PHOTOS,
+				variables: { id: props.userIdForSharedPhotos || authUser.userId },
+			})
+			.subscribe(
+				({
+					data: {
+						user: { sharedPhotos },
+					},
+				}) => {
+					updatePhotoStatus(sharedPhotos);
+				}
+			);
 		return function cleanup() {
-			observable.unsubscribe();
+			observable1.unsubscribe();
+			observable2.unsubscribe();
 		};
 	}, [photo]);
 

@@ -23,7 +23,7 @@ export default ({ closeModal }) => {
 
 	const [file, setFile] = useState(null);
 	const [description, setDescription] = useState('');
-	const [tags, setTags] = useState('');
+
 	const [category, setCategory] = useState('');
 
 	useSubscription(PHOTO_ADDED, {
@@ -57,7 +57,7 @@ export default ({ closeModal }) => {
 					owner: authUser.userId,
 					photo: file,
 					description,
-					taggedUsers: !tags ? [] : tags.split('@').filter((v) => v !== ''),
+					taggedUsers: [],
 					category,
 				},
 			},
@@ -124,21 +124,13 @@ export default ({ closeModal }) => {
 						style={{ display: 'block', background: 'inherit' }}
 					>
 						<option value="">Select Category</option>
-						<option value="ACTION">ACTION</option>
-						<option value="FUN">FUN</option>
-						<option value="GRAPHIC">GRAPHIC</option>
-						<option value="OTHER">OTHER</option>
+						<option value="ACTION">Action</option>
+						<option value="FUN">Fun</option>
+						<option value="GRAPHIC">Graphic</option>
+						<option value="OTHER">Other</option>
 					</select>
 				</div>
-				<InputField
-					id="tags"
-					name="tages"
-					type="text"
-					label="Tag others using @username"
-					labelClassName="noactive"
-					value={tags}
-					onChange={(e) => setTags(e.target.value)}
-				/>
+
 				<div className="right-align">
 					<Flat disabled={loading} className="btn-auth" onClick={submitPhoto}>
 						Share

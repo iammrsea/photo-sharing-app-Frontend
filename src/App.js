@@ -7,7 +7,7 @@ import './assets/app.scss';
 import './App.css';
 
 import { GET_AUTH_USER, GET_PHOTO_NOTIFICATIONS } from 'graphql/queries/local';
-import { Timeline, Profile, Authentication, UserProfile } from 'views';
+import { Timeline, Profile, Authentication, UserProfile, SearchPhotoList } from 'views';
 
 import GeneralLayout from 'layout/GeneralLayout';
 import NotificationList from 'views/notifications/NotificationList';
@@ -55,7 +55,7 @@ function App() {
 						path="/signin"
 						exact
 						render={({ history: { location } }) => {
-							console.log('authUser', authUser);
+							// console.log('authUser', authUser);
 							if (location.state && location.state.logout) {
 								return <Authentication />;
 							}
@@ -87,6 +87,20 @@ function App() {
 								return (
 									<GeneralLayout openModal={openModal}>
 										<UserProfile />
+									</GeneralLayout>
+								);
+							}
+							return <Redirect to="/signin" />;
+						}}
+					/>
+					<Route
+						path="/search-results"
+						exact
+						render={() => {
+							if (authUser.token) {
+								return (
+									<GeneralLayout openModal={openModal}>
+										<SearchPhotoList />
 									</GeneralLayout>
 								);
 							}

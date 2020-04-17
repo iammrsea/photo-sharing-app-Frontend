@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useMutation, useQuery, useApolloClient } from '@apollo/react-hooks';
 import { SET_AUTH_USER } from 'graphql/mutations/local';
@@ -9,6 +9,7 @@ export default ({ openModal }) => {
 	const [removeAuthUser] = useMutation(SET_AUTH_USER);
 	const client = useApolloClient();
 
+	const timelinePhotos = useRef('');
 	const {
 		data: { notifications },
 	} = useQuery(GET_PHOTO_NOTIFICATIONS);
@@ -17,6 +18,11 @@ export default ({ openModal }) => {
 	const handleNotificationClick = () => {
 		if (notifications.length === 0) return;
 		openModal();
+	};
+
+	const handleSearch = (e) => {
+		timelinePhotos.current = e.target.value.trim();
+		history.push('/search-results', { searchText: e.target.value.trim() });
 	};
 	const signOut = () => {
 		localStorage.removeItem('auth_user');
@@ -41,6 +47,16 @@ export default ({ openModal }) => {
 			<nav className="nav-wrapper pink">
 				<div className="container">
 					<ul>
+						<li className="left" className="search">
+							<input
+								onChange={handleSearch}
+								type="text"
+								name="searchTerm"
+								placeholder="Search Photos"
+								id="search"
+								value={timelinePhotos.current}
+							/>
+						</li>
 						<li className="right sign-out" id="notifications" onClick={handleNotificationClick}>
 							<MaterialIcon children="notifications" />
 							<span id="notifications-value">{notifications.length}</span>

@@ -38,7 +38,6 @@ export const USER_SHARED_PHOTOS = gql`
 					...PageMetaData
 				}
 				edges {
-					
 					node {
 						... on Photo {
 							...TimelinePhoto
@@ -83,4 +82,43 @@ export const PHOTO_LIKERS = gql`
 		}
 	}
 	${TIMELINE_USER}
+`;
+
+export const SEARCH_USERS = gql`
+	query searchUsers($first: Int, $after: String, $sorting: UserSortData, $searchText: String) {
+		searchUsers(first: $first, after: $after, sorting: $sorting, searchText: $searchText) {
+			pageInfo {
+				...PageMetaData
+			}
+			edges {
+				node {
+					... on User {
+						...TimelineUser
+					}
+				}
+			}
+		}
+	}
+	${TIMELINE_USER}
+	${PAGE_INFO}
+`;
+
+export const SEARCH_PHOTOS = gql`
+	query searchPhotos($first: Int, $after: String, $sorting: PhotoSortData, $searchText: String!) {
+		searchPhotos(first: $first, after: $after, sorting: $sorting, searchText: $searchText) {
+			pageInfo {
+				...PageMetaData
+			}
+			edges {
+				node {
+					... on Photo {
+						...TimelinePhoto
+					}
+				}
+			}
+		}
+	}
+
+	${TIMELINE_PHOTO}
+	${PAGE_INFO}
 `;
