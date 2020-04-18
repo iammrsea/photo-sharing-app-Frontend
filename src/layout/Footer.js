@@ -40,7 +40,7 @@ const Footer = () => {
 					</GridItem>
 				</GridRow>
 
-				<GridRow>
+				<GridRow style={{ marginBottom: 0 }}>
 					<GridItem sm={12}>
 						<div className="footer-copyright center-align">
 							<Container>© {new Date().getFullYear()} instaphotos.com</Container>

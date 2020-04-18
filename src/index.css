@@ -1,56 +1,49 @@
 body {
-  margin: 0;
-  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+	margin: 0;
+	/* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif; */
-  background: #e0e0e0;
-  font-family: cursive;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	background: #e0e0e0;
+	font-family: cursive;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .infinite-scroll-component {
-  overflow: inherit !important;
+	overflow: inherit !important;
 }
 
 .custom-card-image {
-  display: block;
-  border-radius: 2px 2px 0 0;
-  position: relative;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
+	display: block;
+	border-radius: 2px 2px 0 0;
+	position: relative;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 100%;
 }
 
 .demo-container {
-  background-color: aqua;
-  height: 100vh;
-  position: relative;
+	background-color: aqua;
+	height: 100vh;
+	position: relative;
 }
 
 .background-photo {
-  display: block;
-  border-radius: 2px 2px 0 0;
-  position: relative;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  /* height: auto; */
-  object-fit: contain;
-  margin: 0px;
-}
-
-
-
-body {
-  background-image: url('./assets/img/cam6.jpeg');
+	display: block;
+	border-radius: 2px 2px 0 0;
+	position: relative;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	/* height: auto; */
+	object-fit: contain;
+	margin: 0px;
 }

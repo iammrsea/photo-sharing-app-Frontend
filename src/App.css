@@ -1,10 +1,13 @@
 .login-container {
   background-image: url('./assets/img/cam6.jpeg');
-  background-size: contain;
-  background-position: unset;
-  border: hidden;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  /* border: hidden; */
+  background-repeat: no-repeat;
   font-family: cursive;
-
+  /* min-height: 800px;
+	object-fit: cover; */
 }
 
 .timeline-picture-card {
@@ -14,7 +17,6 @@
 .btn-auth {
   color: #e91e63;
   font-family: cursive;
-
 }
 
 .comment-btn {
@@ -58,24 +60,23 @@
 }
 
 .sign-out {
-  transition: background-color .3s;
+  transition: background-color 0.3s;
   font-size: 1rem;
   color: #fff;
   display: block;
   padding: 0 15px;
   cursor: pointer;
-
 }
 
 .sign-out:hover {
-  background-color: rgba(0, 0, 0, 0.1)
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .sign-out .fa-sign-out-alt {
   /* line-height: normal !important;
   height: 0px; */
   height: auto !important;
-  line-height: inherit !important
+  line-height: inherit !important;
 }
 
 #notifications {
@@ -90,7 +91,6 @@
   padding-top: 15px; */
   height: auto;
   line-height: inherit;
-
 }
 
 #notifications-value {
@@ -105,7 +105,6 @@
   padding: 4px;
 }
 
-
 .z-depth-1,
 nav,
 .card-panel,
@@ -119,16 +118,15 @@ nav,
 .collapsible,
 .sidenav {
   box-shadow: none !important;
-
 }
 
 .materialize-textarea {
-  resize: auto !important
+  resize: auto !important;
 }
 
 .home i {
   height: auto !important;
-  line-height: inherit !important
+  line-height: inherit !important;
 }
 
 span {
@@ -136,13 +134,13 @@ span {
   padding: 0px;
 }
 
-i {
+.nav-wrapper i {
   font-size: 21px !important;
 }
 
 .fa-user-circle {
   height: auto !important;
-  line-height: inherit !important
+  line-height: inherit !important;
 }
 
 .fas {
@@ -166,8 +164,9 @@ i {
   } */
   #notifications {
     height: 64px !important;
-
-
   }
-
 }
+
+/* body {
+	overflow: hidden;
+} */

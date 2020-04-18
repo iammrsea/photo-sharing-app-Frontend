@@ -6,7 +6,7 @@ import { Card } from 'components/card';
 
 const Modal = ({ children, id, title, className }) => {
 	return (
-		<Card>
+		<div>
 			<div id={id} className={clsx(['modal', className])}>
 				<div className="modal-content">
 					<h5 className="center-align pink-text" id="modal-title">
@@ -15,7 +15,7 @@ const Modal = ({ children, id, title, className }) => {
 					{children}
 				</div>
 			</div>
-		</Card>
+		</div>
 	);
 };
 

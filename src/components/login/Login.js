@@ -39,8 +39,8 @@ export default () => {
 	const [showSignUp, setShowSignUp] = React.useState(false);
 	return (
 		<GridRow style={styles.loginContainer} className="login-container">
-			<GridItem sm={12} md={6} mdOffset={3} lg={4} lgOffset={4}>
-				<Card className="grey lighten-4">
+			<GridItem sm={12} md={7} mdOffset={2} lg={4} lgOffset={4}>
+				<Card className="grey lighten-4 ">
 					{!showSignUp && <SignIn signUp={() => setShowSignUp(true)} />}
 					{showSignUp && <SignUp signIn={() => setShowSignUp(false)} />}
 				</Card>

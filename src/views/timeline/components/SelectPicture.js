@@ -125,8 +125,10 @@ export default ({ closeModal }) => {
 					>
 						<option value="">Select Category</option>
 						<option value="ACTION">Action</option>
+						<option value="PETS">Pets</option>
 						<option value="FUN">Fun</option>
-						<option value="GRAPHIC">Graphic</option>
+						<option value="MOVIES">Movies</option>
+						<option value="TRAVEL">Travel</option>
 						<option value="OTHER">Other</option>
 					</select>
 				</div>
