@@ -13,13 +13,6 @@ import GeneralLayout from 'layout/GeneralLayout';
 import NotificationList from 'views/notifications/NotificationList';
 import { SET_GITHUB_CODE } from 'graphql/mutations/local';
 
-const DemoComp = () => {
-	return (
-		<div className="demo-container">
-			<img src="/img/cam1.jpeg" alt="" className="background-photo" />
-		</div>
-	);
-};
 function App() {
 	const client = useApolloClient();
 	const {
@@ -130,7 +123,7 @@ function App() {
 							return <Redirect to="/signin" />;
 						}}
 					/>
-					<Route exact path="/demo" component={DemoComp} />
+
 					<Redirect to="/signin" />
 				</Switch>
 			</Router>
