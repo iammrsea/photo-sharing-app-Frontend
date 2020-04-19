@@ -1,7 +1,7 @@
 import React from 'react';
 import Credentials from './credentials/Credentials';
 import Facebook from './facebook/Facebook';
-import Google from './google/Google';
+// import Google from './google/Google';
 import Github from './github/Github';
 import { GridRow, GridItem } from 'components/grid';
 import { Card, CardBody, CardHeader } from 'components/card';
@@ -26,7 +26,6 @@ const SignIn = ({ signUp }) => {
 			</CardHeader>
 
 			<Github />
-			<Google />
 			<Facebook />
 			<CardHeader className="pink-text center-align" style={{ marginTop: 20 }}>
 				<span style={{ fontWeight: 600 }}>OR</span>
