@@ -6,12 +6,10 @@ import { InputField } from 'components/material-fields';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { ADD_USER_PROFILE } from 'graphql/mutations/remote';
 
-import { UPDATE_ME_PROFILE } from 'graphql/mutations/local';
 import { GET_AUTH_USER } from 'graphql/queries/local';
 
-export default ({ closeModal }) => {
+export default ({ closeModal, updateProfile }) => {
 	const [addUserProfile, { loading }] = useMutation(ADD_USER_PROFILE);
-	const [updateMeProfile] = useMutation(UPDATE_ME_PROFILE);
 
 	const {
 		data: { authUser },
@@ -42,27 +40,17 @@ export default ({ closeModal }) => {
 					about: description,
 				},
 			},
-		})
-			.then((res) => {
+			update(cache, { data: { createProfile } }) {
 				setFile(null);
 				setDescription('');
 				closeModal();
 				Alert({ message: 'Successfully Added', color: 'green' });
-				const {
-					data: { createProfile },
-				} = res;
-				updateMeProfile({
-					variables: {
-						userId: authUser.userId,
-						profile: createProfile,
-					},
-				});
-				// console.log('response ', res);
-			})
-			.catch((e) => {
-				Alert({ message: e.message, color: 'red' });
-				console.log('error adding user profile', e);
-			});
+				updateProfile({ cache, createProfile });
+			},
+		}).catch((e) => {
+			Alert({ message: e.message, color: 'red' });
+			console.log('error adding user profile', e);
+		});
 	};
 	const handleFileInput = (e) => {
 		setFile(e.target.files[0]);

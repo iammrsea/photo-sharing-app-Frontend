@@ -35,8 +35,10 @@ const authLink = new ApolloLink((operation, forward) => {
 
 const httpLink = createUploadLink({
 	uri: 'http://localhost:5000/graphql',
+	// uri: 'https://instaphotosharing-app.herokuapp.com/graphql',
 });
 const wsLink = new WebSocketLink({
+	// uri: 'ws://instaphotosharing-app.herokuapp.com/graphql',
 	uri: 'ws://localhost:5000/graphql',
 	options: { reconnect: true },
 });

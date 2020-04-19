@@ -52,7 +52,7 @@ function App() {
 					<Route
 						path="/"
 						exact
-						render={() => {
+						render={({ history }) => {
 							if (authUser.token) {
 								return (
 									<GeneralLayout openModal={openModal}>
@@ -67,13 +67,14 @@ function App() {
 						path="/signin"
 						exact
 						render={({ history }) => {
+							if (history.location.state && history.location.state.logout) {
+								history.location.state.logout = false;
+								return <Authentication />;
+							}
 							if (history.location.search.match(/code=/)) {
 								const code = history.location.search.replace('?code=', '');
 								setCode(code);
 								history.replace('/signin');
-							}
-							if (history.location.state && history.location.state.logout) {
-								return <Authentication />;
 							}
 							if (authUser.token) {
 								return <Redirect to="/" />;

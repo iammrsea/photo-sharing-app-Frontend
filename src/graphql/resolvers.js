@@ -101,8 +101,10 @@ export const resolvers = {
 				}
 			`;
 			const user = cache.readFragment({ fragment, id });
+			console.log('user from cache', user);
 
 			const data = { ...user, profile: { ...profile } };
+			console.log('data before writing to cache ', data);
 			cache.writeData({ id, data });
 			return null;
 		},

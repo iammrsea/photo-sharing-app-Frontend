@@ -67,6 +67,7 @@ export const ADD_A_PHOTO = gql`
 export const ADD_USER_PROFILE = gql`
 	mutation createProfile($profileData: CreateProfileData!) {
 		createProfile(profileData: $profileData) {
+			id
 			picture
 			about
 		}

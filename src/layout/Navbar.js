@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
-import { useMutation, useQuery, useApolloClient } from '@apollo/react-hooks';
-import { SET_AUTH_USER } from 'graphql/mutations/local';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
+// import { SET_AUTH_USER } from 'graphql/mutations/local';
 import { MaterialIcon } from 'components/icons';
 import { GET_PHOTO_NOTIFICATIONS } from 'graphql/queries/local';
 
 export default ({ openModal }) => {
-	const [removeAuthUser] = useMutation(SET_AUTH_USER);
+	// const [removeAuthUser] = useMutation(SET_AUTH_USER);
 	const client = useApolloClient();
 
 	const timelinePhotos = useRef('');
@@ -21,33 +21,35 @@ export default ({ openModal }) => {
 	};
 
 	const handleSearch = (e) => {
-		timelinePhotos.current = e.target.value.trim();
-		history.push('/search-results', { searchText: e.target.value.trim() });
+		timelinePhotos.current = e.target.value;
+		history.push('/search-results', { searchText: e.target.value });
 	};
 	const signOut = () => {
 		localStorage.removeItem('auth_user');
+		client.resetStore();
+		return history.replace('/signin', { logout: true });
 
-		removeAuthUser({
-			variables: {
-				user: {
-					userId: '',
-					token: '',
-					__typename: 'AuthResponse',
-				},
-			},
-		})
-			.then((res) => {
-				client.resetStore();
-				history.replace('/signin', { logout: true });
-			})
-			.catch((e) => {});
+		// removeAuthUser({
+		// 	variables: {
+		// 		user: {
+		// 			userId: '',
+		// 			token: '',
+		// 			__typename: 'AuthResponse',
+		// 		},
+		// 	},
+		// })
+		// 	.then((res) => {
+		// 		client.resetStore();
+		// 		history.replace('/signin', { logout: true });
+		// 	})
+		// 	.catch((e) => {});
 	};
 	return (
 		<div className="navbar-fixed">
 			<nav className="nav-wrapper pink">
 				<div className="container">
 					<ul>
-						<li className="left" className="search">
+						<li className="left search">
 							<input
 								onChange={handleSearch}
 								type="text"

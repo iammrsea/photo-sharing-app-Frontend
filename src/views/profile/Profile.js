@@ -32,6 +32,7 @@ export default ({ userId }) => {
 	// if (data) {
 	// 	console.log('photos shared', data);
 	// }
+
 	const modal = React.useRef(null);
 
 	React.useEffect(() => {
@@ -45,6 +46,21 @@ export default ({ userId }) => {
 	};
 	const closeModal = () => {
 		modal.current.close();
+	};
+
+	const updateProfile = ({ cache, createProfile }) => {
+		const { user, me } = cache.readQuery({
+			query: USER_SHARED_PHOTOS,
+			variables: { id: authUser.userId },
+		});
+		user.profile = { ...createProfile };
+		me.profile = { ...createProfile };
+
+		cache.writeQuery({
+			query: USER_SHARED_PHOTOS,
+			variables: { id: authUser.userId },
+			data: { user, me },
+		});
 	};
 
 	return (
@@ -159,7 +175,7 @@ export default ({ userId }) => {
 					</GridRow>
 				</div>
 			)}
-			<AddProfileModal closeModal={closeModal} />
+			<AddProfileModal closeModal={closeModal} updateProfile={updateProfile} />
 		</>
 	);
 };

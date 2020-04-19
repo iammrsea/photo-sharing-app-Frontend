@@ -41,7 +41,7 @@ export default ({ signUp }) => {
 		formSignIn({
 			variables: {
 				signinData: {
-					username: emailOrUsername.trim(),
+					emailOrUsername: emailOrUsername.trim(),
 					password: password.trim(),
 				},
 			},
