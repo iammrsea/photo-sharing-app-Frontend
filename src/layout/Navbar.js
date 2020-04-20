@@ -54,7 +54,7 @@ export default ({ openModal }) => {
 								onChange={handleSearch}
 								type="text"
 								name="searchTerm"
-								placeholder="Search Photos"
+								placeholder="Search"
 								id="search"
 								value={timelinePhotos.current}
 							/>
