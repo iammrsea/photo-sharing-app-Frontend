@@ -32,7 +32,7 @@ export default () => {
 		return function cleanup() {
 			observable.unsubscribe();
 		};
-	}, []);
+	});
 
 	return (
 		<>

@@ -76,7 +76,7 @@ cache.writeData({
 const client = new ApolloClient({
 	cache,
 	link,
-	connectToDevTools: true,
+	// connectToDevTools: true,
 	resolvers,
 });
 client.onResetStore(() => {

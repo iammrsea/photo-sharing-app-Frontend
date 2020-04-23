@@ -106,7 +106,7 @@ export default (props) => {
 			observable1.unsubscribe();
 			observable2.unsubscribe();
 		};
-	}, [photo]);
+	});
 
 	const handleUnlike = () => {
 		unlikePhoto({
